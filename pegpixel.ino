@@ -26,17 +26,27 @@ void loop() {
 }
 
 String receivedMessage;
+boolean inObject = false;
 
 boolean readFromBluetooth() {
   if(mySerial.available()){
     char readChar = mySerial.read();
-    if(readChar == '[' || readChar == ']' || readChar == ',') {
+    // Ignore start and end of array
+    if(readChar == '[' || readChar == ']') {
       return false;
     }
-    Serial.write(readChar);
+    // ignore comma separating objects
+    if(readChar == ',' && !inObject) {
+      return false;
+    }
+    //Serial.write(readChar);
     receivedMessage.concat(readChar);
+    if(readChar == '{'){
+      inObject = true;
+    }
     if(readChar == '}'){
       Serial.println("new message!");
+      inObject = false;
       return true;
     }
   }
@@ -44,7 +54,7 @@ boolean readFromBluetooth() {
 }
 
 
-void parseJson(){
+JsonObject& parseJson(){
   const size_t bufferSize = JSON_OBJECT_SIZE(1) + 10;
   DynamicJsonBuffer jsonBuffer(bufferSize);
   
@@ -52,9 +62,8 @@ void parseJson(){
 
   if (!root.success()) {
     Serial.println("parseObject() failed");
-    return;
   } else {
-    Serial.println("message parsed");    
     root.printTo(Serial);
   }
+  return root;
 }
