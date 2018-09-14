@@ -16,6 +16,12 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, NEOPIXEL_PIN, NEO_GRB + 
 
 SoftwareSerial mySerial(rxPin, txPin);
 
+struct ParsedPixel {
+  int x;
+  int y;
+  boolean selected;
+};
+
 void setup() {
   pinMode(rxPin, INPUT);
   pinMode(txPin, OUTPUT);
@@ -34,31 +40,39 @@ void setup() {
 void loop() { 
   if(mySerial.available()){
     String newMessage = mySerial.readStringUntil('\n');
-    JsonObject& json = parseJson(newMessage);
-    drawPixel(json);
+    ParsedPixel parsedPixel = parseJson(newMessage);
+    drawPixel(parsedPixel);
   }
 }
 
 
-JsonObject& parseJson(String newMessage){
-  const size_t bufferSize = JSON_OBJECT_SIZE(1) + 10;
-  DynamicJsonBuffer jsonBuffer(bufferSize);
-  
+const size_t bufferSize = JSON_OBJECT_SIZE(3) + 20;
+StaticJsonBuffer<bufferSize> jsonBuffer;
+
+ParsedPixel parseJson(String newMessage){
+  jsonBuffer.clear();
   JsonObject& root = jsonBuffer.parseObject(newMessage.c_str());
 
   if (!root.success()) {
-    Serial.print("parseObject() failed - ");
+    Serial.print("parseObject() failed - message: ");
+    Serial.println(newMessage);
   } else {
     Serial.print("parsing: ");
     root.printTo(Serial);
     Serial.print("\n");
   }
-  return root;
+
+  struct ParsedPixel parsedPixel;
+  parsedPixel.x = root["x"];
+  parsedPixel.y = root["y"];
+  parsedPixel.selected = root["s"] == "t";
+  
+  return parsedPixel;
 }
 
-void drawPixel(JsonObject& json){
-  int pixelIndex = getPixelIndex(json);
-  if(json["s"] == "t"){
+void drawPixel(ParsedPixel parsedPixel){
+  int pixelIndex = getPixelIndex(parsedPixel);
+  if(parsedPixel.selected){
     pixels.setPixelColor(pixelIndex, pixels.Color(51, 102, 255));
    
   } else {
@@ -68,12 +82,11 @@ void drawPixel(JsonObject& json){
   pixels.show();
 }
 
-int getPixelIndex(JsonObject& json) {
-  int x = json["x"];
-  int y = json["y"];
+int getPixelIndex(ParsedPixel parsedPixel) {
   
   // convert 1-based indices to 0-based
-  x--;y--;
+  int x = --parsedPixel.x;
+  int y = --parsedPixel.y;
   
   if(x % 2 == 0) {
     int pixelIndex = x * 4 + y;
@@ -83,7 +96,7 @@ int getPixelIndex(JsonObject& json) {
     Serial.println(pixelIndex);
     return pixelIndex;
   }
-  int pixelIndex = x * 4 + (4 - (y+1));
+  int pixelIndex = x * 4 + (4 - (y + 1));
   Serial.print("pixelindex:");
   Serial.println(pixelIndex);
   return pixelIndex;
