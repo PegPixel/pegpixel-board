@@ -22,7 +22,6 @@ int delayval = 500; // delay for half a second
 #define rxPin 10
 #define txPin 11
 
-
 SoftwareSerial mySerial(rxPin, txPin);
 
 void setup() {
@@ -55,9 +54,31 @@ void loop() {
   }
   */
 
-  if(mySerial.available()){
-    //char readChar = readFromBluetooth();
+  //readCharAndDrawPixels();  
+  readLineAndDrawPixels();
+}
 
+
+void readCharAndDrawPixels(){
+  if(mySerial.overflow()){
+    Serial.println("Overflow has occurred!");
+  }
+  if(mySerial.available()){
+    char readChar = readFromBluetooth();
+    boolean newMessage = preparseMessage(readChar);
+
+    //if(false == true){
+    if(newMessage == true){
+      JsonObject& json = parseJson();
+      drawPixel(json);
+      resetReceivedMessage();
+    }
+  }
+}
+
+void readLineAndDrawPixels(){
+
+  if(mySerial.available()){
     String readString = readStringFromBluetooth();
     
     for(int i = 0; i < readString.length(); i++){
@@ -70,9 +91,7 @@ void loop() {
         resetReceivedMessage();
       }
     }
-    redrawPixels();
   }
-  
 }
 
 //String receivedMessage;
@@ -124,11 +143,11 @@ JsonObject& parseJson(){
   const size_t bufferSize = JSON_OBJECT_SIZE(1) + 10;
   DynamicJsonBuffer jsonBuffer(bufferSize);
   
+  Serial.println("parsing new message..");
   JsonObject& root = jsonBuffer.parseObject(receivedMessage);
 
   if (!root.success()) {
     Serial.print("parseObject() failed - ");
-    Serial.println(String(receivedMessage));
   } else {
     root.printTo(Serial);
     Serial.print("\n");
@@ -151,10 +170,6 @@ void drawPixel(JsonObject& json){
   }
   
   pixels.show();
-}
-
-void redrawPixels(){
-  
 }
 
 void resetReceivedMessage() {
