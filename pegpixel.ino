@@ -56,10 +56,6 @@ ParsedPixel parseJson(String newMessage){
   if (!root.success()) {
     Serial.print("parseObject() failed - message: ");
     Serial.println(newMessage);
-  } else {
-    Serial.print("parsing: ");
-    root.printTo(Serial);
-    Serial.print("\n");
   }
 
   struct ParsedPixel parsedPixel;
@@ -89,16 +85,7 @@ int getPixelIndex(ParsedPixel parsedPixel) {
   int y = --parsedPixel.y;
   
   if(x % 2 == 0) {
-    int pixelIndex = x * 4 + y;
-    Serial.println("line 0 or 2");
-    
-    Serial.print("pixelindex: ");
-    Serial.println(pixelIndex);
-    return pixelIndex;
+    return x * 4 + y;
   }
-  int pixelIndex = x * 4 + (4 - (y + 1));
-  Serial.print("pixelindex:");
-  Serial.println(pixelIndex);
-  return pixelIndex;
-
+  return x * 4 + (4 - (y + 1));
 }
