@@ -34,7 +34,7 @@ void setup() {
   pinMode(rxPin, INPUT);
   pinMode(txPin, OUTPUT);
   int baudRate = 19200;
-  
+  Serial.setTimeout(10);
   Serial.begin(baudRate);
   
   mySerial.begin(baudRate);
@@ -45,117 +45,41 @@ void setup() {
 }
 
 
-void loop() {
-
-  /*
+void loop() { 
   if(mySerial.available()){
-    char readChar = mySerial.read();
-    Serial.write(readChar); 
-  }
-  */
-
-  //readCharAndDrawPixels();  
-  readLineAndDrawPixels();
-}
-
-
-void readCharAndDrawPixels(){
-  if(mySerial.overflow()){
-    Serial.println("Overflow has occurred!");
-  }
-  if(mySerial.available()){
-    char readChar = readFromBluetooth();
-    boolean newMessage = preparseMessage(readChar);
-
-    //if(false == true){
+    boolean newMessage = readCharArrayFromBluetooth();
     if(newMessage == true){
       JsonObject& json = parseJson();
       drawPixel(json);
-      resetReceivedMessage();
     }
   }
 }
 
-void readLineAndDrawPixels(){
+const int readStringSize = 64;
+char readString[readStringSize] = "";
 
-  if(mySerial.available()){
-    String readString = readStringFromBluetooth();
-    
-    for(int i = 0; i < readString.length(); i++){
-        
-      boolean newMessage = preparseMessage(readString[i]);
-      
-      if(newMessage == true){
-        JsonObject& json = parseJson();
-        drawPixel(json);
-        resetReceivedMessage();
-      }
-    }
-  }
+const int minimumMessageSize = 21; 
+boolean readCharArrayFromBluetooth() {
+  int numberOfReadBytes = mySerial.readBytesUntil('\n', readString, readStringSize);
+  return numberOfReadBytes >= minimumMessageSize;
 }
-
-//String receivedMessage;
-const int receivedMessageSize = 32;
-char receivedMessage[receivedMessageSize] = "";
-int indexInReceivedMessage= 0;
-
-boolean inObject = false;
-
-char readFromBluetooth() {
-  char readChar = mySerial.read();
-  Serial.write(readChar);
-  return readChar;
-}
-
-String readStringFromBluetooth() {
-  String readString = mySerial.readString();
-  Serial.write(readString.c_str());
-  return readString;
-}
-
-boolean preparseMessage(char readChar) {
-// Ignore start and end of array
-  if(readChar == '[' || readChar == ']') {
-    return false;
-  }
-  // ignore comma separating objects
-  if(readChar == ',' && !inObject) {
-    return false;
-  }
-  addReceivedChar(readChar);
-  if(readChar == '{'){
-    inObject = true;
-  }
-  if(readChar == '}'){
-    Serial.print("new message: ");
-    inObject = false;
-    return true;
-  }
-}
-
-void addReceivedChar(char c) {
-    //receivedMessage.concat(c);
-    receivedMessage[indexInReceivedMessage++] = c;
-}
-
 
 JsonObject& parseJson(){
   const size_t bufferSize = JSON_OBJECT_SIZE(1) + 10;
   DynamicJsonBuffer jsonBuffer(bufferSize);
   
-  Serial.println("parsing new message..");
-  JsonObject& root = jsonBuffer.parseObject(receivedMessage);
+  JsonObject& root = jsonBuffer.parseObject(readString);
 
   if (!root.success()) {
     Serial.print("parseObject() failed - ");
   } else {
+    Serial.print("parsing: ");
     root.printTo(Serial);
     Serial.print("\n");
   }
+  readString[readStringSize] = "";
   return root;
 }
-
-//uint32_t pixelState[NUMPIXELS] = pixels.Color(0, 0, 0);
 
 void drawPixel(JsonObject& json){
   int y = json["y"];
@@ -170,9 +94,4 @@ void drawPixel(JsonObject& json){
   }
   
   pixels.show();
-}
-
-void resetReceivedMessage() {
-  receivedMessage[32] = "";
-  indexInReceivedMessage= 0;
 }
