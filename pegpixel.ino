@@ -83,9 +83,10 @@ int getPixelIndex(ParsedPixel parsedPixel) {
   // convert 1-based indices to 0-based
   int x = --parsedPixel.x;
   int y = --parsedPixel.y;
+  int xOffset = x * 4;
   
   if(x % 2 == 0) {
-    return x * 4 + y;
+    return xOffset + y;
   }
-  return x * 4 + (4 - (y + 1));
+  return xOffset + 3 - y;
 }
