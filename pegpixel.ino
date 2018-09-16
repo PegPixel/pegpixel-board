@@ -49,42 +49,6 @@ void loop() {
   }
 }
 
-
-  #define INPUT_SIZE 32
-  
-ParsedPixel parseCsv(String newMessage) {
-  
-  Serial.print("Parsing pixel: ");
-  Serial.println(newMessage);
-  
- 
-  char * input = new char [newMessage.length()+1];
-  strcpy (input, newMessage.c_str());
-  
-  char delimiter[] = ",";
-  char* currentElement = strtok(input, delimiter);
-
-  struct ParsedPixel parsedPixel;
-  
-  parsedPixel.x = atoi(currentElement);
-  currentElement = strtok(NULL, delimiter);
-  parsedPixel.y = atoi(currentElement); 
-  currentElement = strtok(NULL, delimiter);
-  parsedPixel.selected = *currentElement == 't';  
-  currentElement = strtok(NULL, delimiter);
-  parsedPixel.r = atoi(currentElement); 
-  currentElement = strtok(NULL, delimiter);
-  parsedPixel.g = atoi(currentElement); 
-  currentElement = strtok(NULL, delimiter);
-  parsedPixel.b = atoi(currentElement); 
-
-  Serial.print("Parsed pixel: ");
-  Serial.println();
-  
-  return parsedPixel;
-  
-}
-
 const size_t bufferSize = JSON_OBJECT_SIZE(6) + 30;
 StaticJsonBuffer<bufferSize> jsonBuffer;
 
