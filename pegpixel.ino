@@ -20,6 +20,9 @@ struct ParsedPixel {
   int x;
   int y;
   boolean selected;
+  int r;
+  int g;
+  int b;
 };
 
 void setup() {
@@ -33,6 +36,7 @@ void setup() {
   
   Serial.write("Serial is online\n");
   pixels.begin();
+  pixels.setBrightness(255);
   pixels.show();
 }
 
@@ -46,7 +50,7 @@ void loop() {
 }
 
 
-const size_t bufferSize = JSON_OBJECT_SIZE(3) + 20;
+const size_t bufferSize = JSON_OBJECT_SIZE(6) + 30;
 StaticJsonBuffer<bufferSize> jsonBuffer;
 
 ParsedPixel parseJson(String newMessage){
@@ -62,6 +66,9 @@ ParsedPixel parseJson(String newMessage){
   parsedPixel.x = root["x"];
   parsedPixel.y = root["y"];
   parsedPixel.selected = root["s"] == "t";
+  parsedPixel.r = root["r"];
+  parsedPixel.g = root["g"];
+  parsedPixel.b = root["b"];
   
   return parsedPixel;
 }
@@ -69,7 +76,7 @@ ParsedPixel parseJson(String newMessage){
 void drawPixel(ParsedPixel parsedPixel){
   int pixelIndex = getPixelIndex(parsedPixel);
   if(parsedPixel.selected){
-    pixels.setPixelColor(pixelIndex, pixels.Color(51, 102, 255));
+    pixels.setPixelColor(pixelIndex, pixels.Color(parsedPixel.r, parsedPixel.g, parsedPixel.b));
    
   } else {
     pixels.setPixelColor(pixelIndex, pixels.Color(0, 0, 0));  
