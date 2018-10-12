@@ -13,7 +13,7 @@
 #define NUM_PIXELS (COLUMNS * ROWS)
 
 
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIXELS, NEOPIXEL_PIN, NEO_GRBW + NEO_KHZ800);
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 #define rxPin 10 // This is where the TX Pin from The BT Device is connected
 #define txPin 11
@@ -43,22 +43,50 @@ void setup() {
   pixels.show();
 }
 
+String incomingMessages[NUM_PIXELS];
+int currentMessageIndex = 0;
 
 void loop() {
-  /*
+  if (mySerial.overflow()) {
+   Serial.println("SoftwareSerial overflow!"); 
+  }
   if(mySerial.available()){
     String newMessage = mySerial.readStringUntil('\n');
-    ParsedPixel parsedPixel = parseJson(newMessage);
+    Serial.println(newMessage);
+    if(newMessage.indexOf('#') != -1 ){
+      incomingMessages[currentMessageIndex++] = newMessage.substring(0, newMessage.length() - 1);
+      parseMessages();
+      currentMessageIndex = 0;
+    } else {
+      String temp = newMessage.substring(0, newMessage.length());
+      
+      Serial.print("temp before adding : " );
+      Serial.println(temp);
+      incomingMessages[currentMessageIndex++] = temp ;
+    }
+ 
+  }
+ // pulseRed(0, false);
+}
+
+void parseMessages(){
+  for (int i = 0; i < currentMessageIndex; i++){
+    String temp = incomingMessages[currentMessageIndex];
+    
+    Serial.print("temp : " );
+    Serial.println(temp);
+    ParsedPixel parsedPixel = parseJson(temp);
     drawPixel(parsedPixel);
   }
-  */
-  pulseRed(6, true);
 }
 
 const size_t bufferSize = JSON_OBJECT_SIZE(6) + 30;
 StaticJsonBuffer<bufferSize> jsonBuffer;
 
 ParsedPixel parseJson(String newMessage){
+  
+  Serial.print("parsing : " );
+  Serial.println(newMessage);
   jsonBuffer.clear();
   JsonObject& root = jsonBuffer.parseObject(newMessage.c_str());
 
@@ -125,7 +153,7 @@ static const uint8_t PROGMEM _sineTable[SINE_TABLE_SIZE] = {
 
 void pulseRed(int pixelIndex, boolean infinitely){
 
-  while(infinitely){
+  do{
     for (int i = 0; i < SINE_TABLE_SIZE; i++){
       uint8_t red = pgm_read_byte(&_sineTable[i]);
       //setAllPixels(red, 0, 0);
@@ -133,7 +161,7 @@ void pulseRed(int pixelIndex, boolean infinitely){
       pixels.show();
       delay(10);
     }
-  }
+  }while(infinitely);
 }
  
 void setAllPixels(int red, int green, int blue) {
