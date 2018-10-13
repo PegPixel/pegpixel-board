@@ -8,8 +8,8 @@
 
 #define NEOPIXEL_PIN            6
 
-#define COLUMNS 7
-#define ROWS 5
+#define COLUMNS 4
+#define ROWS 4
 #define NUM_PIXELS (COLUMNS * ROWS)
 
 
@@ -29,10 +29,25 @@ struct ParsedPixel {
   int b;
 };
 
+
+
+#define BALL_UP 0
+#define BALL_RIGHT 1
+#define BALL_LEFT 2
+#define BALL_DOWN 3
+
+struct Ball {
+  int x;
+  int y;
+  int direction;
+};
+
+struct Ball ball;
+
 void setup() {
   pinMode(rxPin, INPUT);
   pinMode(txPin, OUTPUT);
-  int baudRate = 19200;
+  int baudRate = 9600;
   Serial.setTimeout(10);
   Serial.begin(baudRate);
   
@@ -41,6 +56,8 @@ void setup() {
   Serial.write("Serial is online\n");
   pixels.begin();
   pixels.show();
+  randomSeed(now());
+  ball = {random(0, COLUMNS), random(0, ROWS), random(0, BALL_DOWN)};
 }
 
 String incomingMessages[NUM_PIXELS];
@@ -50,33 +67,69 @@ void loop() {
   if (mySerial.overflow()) {
    Serial.println("SoftwareSerial overflow!"); 
   }
-  if(mySerial.available()){
-    String newMessage = mySerial.readStringUntil('\n');
-    Serial.println(newMessage);
-    if(newMessage.indexOf('#') != -1 ){
-      incomingMessages[currentMessageIndex++] = newMessage.substring(0, newMessage.length() - 1);
-      parseMessages();
-      currentMessageIndex = 0;
-    } else {
-      String temp = newMessage.substring(0, newMessage.length());
-      
-      Serial.print("temp before adding : " );
-      Serial.println(temp);
-      incomingMessages[currentMessageIndex++] = temp ;
-    }
- 
-  }
+ drawBallUpdates();
+ // drawBluetoothUpdates();
  // pulseRed(0, false);
 }
 
-void parseMessages(){
-  for (int i = 0; i < currentMessageIndex; i++){
-    String temp = incomingMessages[currentMessageIndex];
-    
-    Serial.print("temp : " );
-    Serial.println(temp);
-    ParsedPixel parsedPixel = parseJson(temp);
-    drawPixel(parsedPixel);
+void drawBallUpdates(){
+  
+  int pixelIndex = getPixelIndex(ball.x, ball.y);
+  pixels.setPixelColor(pixelIndex, pixels.Color(0, 0, 0));  
+  Serial.print("x:");
+  Serial.print(ball.x);
+  Serial.print(" y:");
+  Serial.print(ball.y);
+  Serial.print(" direction:");
+  Serial.println(ball.direction);
+  switch (ball.direction){
+    case BALL_UP: ball.y++;break;
+    case BALL_RIGHT: ball.x++;break;
+    case BALL_LEFT: ball.x--;break;
+    case BALL_DOWN: ball.y--;break;
+  }
+  detectBorderAndSwitchDirections();
+  pixelIndex = getPixelIndex(ball.x, ball.y);
+  pixels.setPixelColor(pixelIndex, pixels.Color(0, 0, 64));  
+  pixels.show();
+  delay(200);
+}
+
+void detectBorderAndSwitchDirections(){
+  switch(ball.x) {
+    case -1: 
+      ball.x++;
+      ball.direction = newRandomDirection(ball.direction); break;
+    case ROWS: 
+      ball.x--;
+      ball.direction = newRandomDirection(ball.direction); break;
+  }
+  switch(ball.y) {
+    case -1:
+      ball.y++;
+      ball.direction = newRandomDirection(ball.direction); break;
+    case ROWS: 
+      ball.y--;
+      ball.direction = newRandomDirection(ball.direction); break;
+  }
+}
+
+int newRandomDirection(int oldDirection){
+  int newDirection = random(0, BALL_DOWN);
+  if(newDirection != oldDirection){
+    return newDirection;
+  } else {
+    return newRandomDirection(oldDirection);
+  }
+}
+
+void drawBluetoothUpdates(){
+  if(mySerial.available()){
+    String newMessage = mySerial.readStringUntil('\n');
+    Serial.println(newMessage);
+    ParsedPixel pixel = parseJson(newMessage);
+    drawPixel(pixel);
+ 
   }
 }
 
@@ -96,8 +149,8 @@ ParsedPixel parseJson(String newMessage){
   }
 
   struct ParsedPixel parsedPixel;
-  parsedPixel.x = root["x"];
-  parsedPixel.y = root["y"];
+  parsedPixel.x = ((int)root["x"]) - 1;
+  parsedPixel.y = ((int)root["y"]) - 1;
   parsedPixel.selected = root["s"] == "t";
   parsedPixel.r = root["r"];
   parsedPixel.g = root["g"];
@@ -107,22 +160,17 @@ ParsedPixel parseJson(String newMessage){
 }
 
 void drawPixel(ParsedPixel parsedPixel){
-  int pixelIndex = getPixelIndex(parsedPixel);
+  int pixelIndex = getPixelIndex(parsedPixel.x, parsedPixel.y);
   if(parsedPixel.selected){
     pixels.setPixelColor(pixelIndex, pixels.Color(parsedPixel.r, parsedPixel.g, parsedPixel.b));
-   
   } else {
     pixels.setPixelColor(pixelIndex, pixels.Color(0, 0, 0));  
-    
   }
   pixels.show();
 }
 
-int getPixelIndex(ParsedPixel parsedPixel) {
+int getPixelIndex(int column, int row) {
   
-  // convert 1-based indices to 0-based
-  int column = --parsedPixel.x;
-  int row = --parsedPixel.y;
   int rowOffset = row * COLUMNS;
   
   if(row % 2 == 0) {
