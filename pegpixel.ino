@@ -1,6 +1,7 @@
 #include <SoftwareSerial.h>
 
 #include <ArduinoJson.h>
+
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
   #include <avr/power.h>
@@ -11,6 +12,7 @@
 #define COLUMNS 4
 #define ROWS 4
 #define NUM_PIXELS (COLUMNS * ROWS)
+
 
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
@@ -60,20 +62,6 @@ void setup() {
   randomSeed(analogRead(A0));
   ball = {random(0, COLUMNS), random(0, ROWS), random(0, BALL_DOWN)};
 
-
-  int beforeJson = millis();
-  parseJson("{\"x\":1,\"y\":1,\"s\":\"t\",\"r\":255,\"g\":0,\"b\":\"0\"}");
-  int afterJson = millis();
-  
-  int beforeSimple = millis();
-  parseMessage("12t255000000");
-  int afterSimple = millis();
-
-  
-  Serial.print("json: ");
-  Serial.println(afterJson - beforeJson);
-  Serial.print("simple: ");
-  Serial.println(afterSimple - beforeSimple);
   
 }
 
@@ -87,29 +75,25 @@ void loop() {
  //drawBallUpdates();
  drawBluetoothUpdates();
  // pulseRed(0, false);
-
 }
 
 
 void drawBluetoothUpdates(){
   if(mySerial.available()){
     String newMessage = mySerial.readStringUntil('\n');
-    Serial.println(newMessage);
-    ParsedPixel pixel = parseMessage(newMessage);
-    drawPixel(pixel);
- 
+    ParsedPixel parsedPixel = parseJson(newMessage);
+    drawPixel(parsedPixel);
   }
 }
 
+  struct ParsedPixel parsedPixel;
 ParsedPixel parseMessage(String newMessage) {
   Serial.print("parsing : " );
   Serial.println(newMessage);
 
-  char* message = newMessage.c_str();
+  long beforeSimple = millis();
 
-  
-
-  int x = newMessage.substring(0, 1).toInt();
+  int x = newMessage.substring(0 ,1).toInt();
   int y = newMessage.substring(1, 2).toInt();
   String selected = newMessage.substring(2, 3);
   int r = newMessage.substring(3, 6).toInt();
@@ -117,7 +101,6 @@ ParsedPixel parseMessage(String newMessage) {
   int b = newMessage.substring(9, 12).toInt();
 
   
-  struct ParsedPixel parsedPixel;
   parsedPixel.x = --x;
   parsedPixel.y = --y;
   parsedPixel.selected = selected == "t";
@@ -125,6 +108,10 @@ ParsedPixel parseMessage(String newMessage) {
   parsedPixel.g = g;
   parsedPixel.b = b;
   
+  long afterSimple = millis();
+  
+  Serial.print("simple: ");
+  Serial.println(afterSimple - beforeSimple);
   return parsedPixel;
 }
 
@@ -132,9 +119,6 @@ const size_t bufferSize = JSON_OBJECT_SIZE(6) + 30;
 StaticJsonBuffer<bufferSize> jsonBuffer;
 
 ParsedPixel parseJson(String newMessage){
-  
-  Serial.print("parsing as json : " );
-  Serial.println(newMessage);
   jsonBuffer.clear();
   JsonObject& root = jsonBuffer.parseObject(newMessage.c_str());
 
@@ -154,6 +138,7 @@ ParsedPixel parseJson(String newMessage){
   return parsedPixel;
 }
 
+
 void drawPixel(ParsedPixel parsedPixel){
   int pixelIndex = getPixelIndex(parsedPixel.x, parsedPixel.y);
   if(parsedPixel.selected){
@@ -169,7 +154,7 @@ void printToSerial(ParsedPixel parsedPixel){
   Serial.print("pixel - x: ");
   Serial.print(parsedPixel.x);
   Serial.print(" - y: ");
-  Serial.print(parsedPixel.x);
+  Serial.print(parsedPixel.y);
   Serial.print(" - selected: ");
   Serial.print(parsedPixel.selected);
   Serial.print(" - r: ");
