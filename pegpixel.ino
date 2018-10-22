@@ -101,8 +101,8 @@ ParsedPixel parseMessage(String newMessage) {
   int b = newMessage.substring(9, 12).toInt();
 
   
-  parsedPixel.x = --x;
-  parsedPixel.y = --y;
+  parsedPixel.x = x;
+  parsedPixel.y = y;
   parsedPixel.selected = selected == "t";
   parsedPixel.r = r;
   parsedPixel.g = g;
@@ -128,8 +128,8 @@ ParsedPixel parseJson(String newMessage){
   }
 
   struct ParsedPixel parsedPixel;
-  parsedPixel.x = ((int)root["x"]) - 1;
-  parsedPixel.y = ((int)root["y"]) - 1;
+  parsedPixel.x = ((int)root["x"]);
+  parsedPixel.y = ((int)root["y"]);
   parsedPixel.selected = root["s"] == "t";
   parsedPixel.r = root["r"];
   parsedPixel.g = root["g"];
