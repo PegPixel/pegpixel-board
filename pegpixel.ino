@@ -79,7 +79,6 @@ ParsedPixel parseMessage(String newMessage) {
   int g = newMessage.substring(6, 9).toInt();
   int b = newMessage.substring(9, 12).toInt();
 
-  
   parsedPixel.x = x;
   parsedPixel.y = y;
   parsedPixel.selected = selected == "t";
@@ -87,10 +86,6 @@ ParsedPixel parseMessage(String newMessage) {
   parsedPixel.g = g;
   parsedPixel.b = b;
   
-  long afterSimple = millis();
-  
-  Serial.print("simple: ");
-  Serial.println(afterSimple - beforeSimple);
   return parsedPixel;
 }
 
