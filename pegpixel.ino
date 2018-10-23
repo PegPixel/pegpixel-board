@@ -14,12 +14,10 @@
 #define NUM_PIXELS (COLUMNS * ROWS)
 
 
-
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIXELS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 #define rxPin 10 // This is where the TX Pin from The BT Device is connected
 #define txPin 11
-
 
 SoftwareSerial mySerial(rxPin, txPin);
 
@@ -46,14 +44,11 @@ void setup() {
   pixels.show();  
 }
 
-String incomingMessages[NUM_PIXELS];
-int currentMessageIndex = 0;
-
 void loop() {
   if (mySerial.overflow()) {
    Serial.println("SoftwareSerial overflow!"); 
   }
- drawBluetoothUpdates();
+  drawBluetoothUpdates();
 }
 
 
@@ -65,13 +60,7 @@ void drawBluetoothUpdates(){
   }
 }
 
-  struct ParsedPixel parsedPixel;
 ParsedPixel parseMessage(String newMessage) {
-  Serial.print("parsing : " );
-  Serial.println(newMessage);
-
-  long beforeSimple = millis();
-
   int x = newMessage.substring(0 ,1).toInt();
   int y = newMessage.substring(1, 2).toInt();
   String selected = newMessage.substring(2, 3);
@@ -79,6 +68,7 @@ ParsedPixel parseMessage(String newMessage) {
   int g = newMessage.substring(6, 9).toInt();
   int b = newMessage.substring(9, 12).toInt();
 
+  struct ParsedPixel parsedPixel;
   parsedPixel.x = x;
   parsedPixel.y = y;
   parsedPixel.selected = selected == "t";
@@ -140,9 +130,7 @@ void printToSerial(ParsedPixel parsedPixel){
 }
 
 int getPixelIndex(int column, int row) {
-  
   int rowOffset = row * COLUMNS;
-  
   if(row % 2 == 0) {
     return rowOffset + column;
   }
