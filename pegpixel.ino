@@ -16,6 +16,7 @@
 
 
 NeoPixelBrightnessBus<NeoGrbFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
+NeoGamma<NeoGammaTableMethod> colorGamma;
 
 BluetoothSerial mySerial;
 
@@ -99,9 +100,9 @@ ParsedPixel parseJson(String newMessage){
 void drawPixel(ParsedPixel parsedPixel){
   int pixelIndex = getPixelIndex(parsedPixel.x, parsedPixel.y);
   if(parsedPixel.selected){
-    pixels.SetPixelColor(pixelIndex, RgbColor(parsedPixel.r, parsedPixel.g, parsedPixel.b));
+    pixels.SetPixelColor(pixelIndex, createCorrectedColor(parsedPixel.r, parsedPixel.g, parsedPixel.b));
   } else {
-    pixels.SetPixelColor(pixelIndex, RgbColor(0, 0, 0));  
+    pixels.SetPixelColor(pixelIndex, createCorrectedColor(0, 0, 0));  
   }
   pixels.Show();
 }
@@ -155,7 +156,7 @@ void pulseRed(int pixelIndex, boolean infinitely){
     for (int i = 0; i < SINE_TABLE_SIZE; i++){
       uint8_t red = pgm_read_byte(&_sineTable[i]);
       //setAllPixels(red, 0, 0);
-      pixels.SetPixelColor(pixelIndex, RgbColor(red, 0, 0));
+      pixels.SetPixelColor(pixelIndex, createCorrectedColor(red, 0, 0));
       pixels.Show();
       delay(10);
     }
@@ -176,4 +177,9 @@ void updatePixelBrightness(){
     pixels.SetBrightness(brightness);
     pixels.Show();
   }
+}
+
+
+RgbColor createCorrectedColor(int red, int green, int blue){
+  return colorGamma.Correct(RgbColor(red, green, blue));
 }
