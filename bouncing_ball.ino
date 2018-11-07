@@ -15,7 +15,7 @@ struct Ball ball;
 void drawBallUpdates(){
   
   int pixelIndex = getPixelIndex(ball.x, ball.y);
-  pixels.setPixelColor(pixelIndex, pixels.Color(0, 0, 0));  
+  pixels.SetPixelColor(pixelIndex, RgbColor(0, 0, 0));  
   Serial.print("x:");
   Serial.print(ball.x);
   Serial.print(" y:");
@@ -30,8 +30,8 @@ void drawBallUpdates(){
   }
   detectBorderAndSwitchDirections();
   pixelIndex = getPixelIndex(ball.x, ball.y);
-  pixels.setPixelColor(pixelIndex, pixels.Color(0, 0, 64));  
-  pixels.show();
+  pixels.SetPixelColor(pixelIndex, RgbColor(0, 0, 64));  
+  pixels.Show();
   delay(200);
 }
 
