@@ -31,7 +31,7 @@ void setup() {
   Serial.setTimeout(10);
   Serial.begin(baudRate);
   
-  mySerial.begin("DSD TECH HC-05");
+  mySerial.begin("pegpixel-board");
   
   Serial.write("Serial is online\n");
   pixels.Begin();
