@@ -1,9 +1,7 @@
 #include <ArduinoJson.h>
-
-
-#include "BluetoothSerial.h"
-
+#include <BluetoothSerial.h>
 #include <NeoPixelBrightnessBus.h>
+
 #ifdef __AVR__
   #include <avr/power.h>
 #endif
@@ -13,7 +11,6 @@
 #define COLUMNS 4
 #define ROWS 4
 #define NUM_PIXELS (COLUMNS * ROWS)
-
 
 NeoPixelBrightnessBus<NeoGrbFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
 NeoGamma<NeoGammaTableMethod> colorGamma;
@@ -155,7 +152,6 @@ void pulseRed(int pixelIndex, boolean infinitely){
   do{
     for (int i = 0; i < SINE_TABLE_SIZE; i++){
       uint8_t red = pgm_read_byte(&_sineTable[i]);
-      //setAllPixels(red, 0, 0);
       pixels.SetPixelColor(pixelIndex, createCorrectedColor(red, 0, 0));
       pixels.Show();
       delay(10);
