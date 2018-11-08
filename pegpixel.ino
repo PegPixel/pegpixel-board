@@ -16,6 +16,7 @@ NeoPixelBrightnessBus<NeoGrbFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIX
 NeoGamma<NeoGammaTableMethod> colorGamma;
 
 BluetoothSerial mySerial;
+const String BluetoothDeviceName = "pegpixel-board";
 
 struct ParsedPixel {
   int x;
@@ -31,7 +32,7 @@ void setup() {
   Serial.setTimeout(10);
   Serial.begin(baudRate);
   
-  mySerial.begin("pegpixel-board");
+  mySerial.begin(BluetoothDeviceName);
   
   Serial.write("Serial is online\n");
   pixels.Begin();
@@ -104,21 +105,6 @@ void drawPixel(ParsedPixel parsedPixel){
   pixels.Show();
 }
 
-void printToSerial(ParsedPixel parsedPixel){
-  Serial.print("pixel - x: ");
-  Serial.print(parsedPixel.x);
-  Serial.print(" - y: ");
-  Serial.print(parsedPixel.y);
-  Serial.print(" - selected: ");
-  Serial.print(parsedPixel.selected);
-  Serial.print(" - r: ");
-  Serial.print(parsedPixel.r);
-  Serial.print(" - g: ");
-  Serial.print(parsedPixel.g);
-  Serial.print(" - b: ");
-  Serial.println(parsedPixel.b);
-}
-
 int getPixelIndex(int column, int row) {
   int rowOffset = row * COLUMNS;
   if(row % 2 == 0) {
@@ -147,22 +133,10 @@ static const uint8_t PROGMEM _sineTable[SINE_TABLE_SIZE] = {
    37, 40, 42, 44, 47, 49, 52, 54, 57, 59, 62, 65, 67, 70, 73, 76,
    79, 82, 85, 88, 90, 93, 97,100,103,106,109,112,115,118,121,124};
 
-void pulseRed(int pixelIndex, boolean infinitely){
-
-  do{
-    for (int i = 0; i < SINE_TABLE_SIZE; i++){
-      uint8_t red = pgm_read_byte(&_sineTable[i]);
-      pixels.SetPixelColor(pixelIndex, createCorrectedColor(red, 0, 0));
-      pixels.Show();
-      delay(10);
-    }
-  }while(infinitely);
-}
-
 int currentSineIndex = 0;
  
 void updatePixelBrightness(){
-  if(millis() % 5 == 0){
+  if(millis() % 30 == 0){
     if(currentSineIndex < SINE_TABLE_SIZE -1){
       currentSineIndex++;    
     } else {
@@ -175,7 +149,21 @@ void updatePixelBrightness(){
   }
 }
 
-
 RgbColor createCorrectedColor(int red, int green, int blue){
   return colorGamma.Correct(RgbColor(red, green, blue));
+}
+
+void printToSerial(ParsedPixel parsedPixel){
+  Serial.print("pixel - x: ");
+  Serial.print(parsedPixel.x);
+  Serial.print(" - y: ");
+  Serial.print(parsedPixel.y);
+  Serial.print(" - selected: ");
+  Serial.print(parsedPixel.selected);
+  Serial.print(" - r: ");
+  Serial.print(parsedPixel.r);
+  Serial.print(" - g: ");
+  Serial.print(parsedPixel.g);
+  Serial.print(" - b: ");
+  Serial.println(parsedPixel.b);
 }
