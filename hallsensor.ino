@@ -1,11 +1,11 @@
 #include <Wire.h>
-const int SENSOR_ADR=0x60;
+const int SENSOR_ADR=0x42;
 const int HALL_REGISTER_ADR=0x1F;
 const int HALL_REGISTER_SIZE_BYTE=4;
 
 void setup() {
   Wire.begin();       
-  Serial.begin(9600); 
+  Serial.begin(115200); 
 }
 
 void loop() {

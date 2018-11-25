@@ -1,0 +1,108 @@
+#include <Wire.h>
+
+// this sketch writes an A1454 I2C address to its EEPROM
+// make sure to set the sensor's ADR0 and ADR1 pin to VCC to use the custom address
+// start reading code and comments in setup procedure
+
+void scan(){
+Serial.println(" Scanning I2C Addresses");
+uint8_t cnt=0;
+for(uint8_t i=0;i<128;i++){
+  Wire.beginTransmission(i);
+  uint8_t ec=Wire.endTransmission(true);
+  if(ec==0){
+    if(i<16)Serial.print('0');
+    Serial.print(i,HEX);
+    cnt++;
+  }
+  else Serial.print("..");
+  Serial.print(' ');
+  if ((i&0x0f)==0x0f)Serial.println();
+  }
+Serial.print("Scan Completed, ");
+Serial.print(cnt);
+Serial.println(" I2C Devices found.");
+}
+
+bool i2cReady(uint8_t adr){
+uint32_t timeout=millis();
+bool ready=false;
+while((millis()-timeout<100)&&(!ready)){
+  Wire.beginTransmission(adr);
+  ready=(Wire.endTransmission()==0);
+  }
+return ready;
+}
+
+const int CUST_ACC_ADR=0x24;
+const int CURRENT_SENSOR_ADR=0x42;
+const int NEW_SENSOR_ADR=0x43; // (10 ... 127 I think, to be checked!!)
+
+void activateCustomerAccessMode() {
+  byte buffer[4]; // magic string to make sensor writeable until next power cycle (lol, hardware)
+  buffer[0] = 0x2c;
+  buffer[1] = 0x41;
+  buffer[2] = 0x35;
+  buffer[3] = 0x34;
+  Wire.beginTransmission(CURRENT_SENSOR_ADR);
+  Wire.write(CUST_ACC_ADR);
+  Serial.print("no. of bytes written to cust. access register: ");
+  Serial.println(Wire.write(buffer, 4));
+  Serial.print("end transmission error code for cust. access register: ");
+  Serial.println(Wire.endTransmission(true));
+}
+
+int addrRegister(bool persistant) { return persistant ? 0x03 : 0x0b; }
+
+// persistent eeprom address can only be written 1000 times!
+void writeI2Caddress(bool persistant) {
+  int addr = addrRegister(persistant);
+  Wire.beginTransmission(CURRENT_SENSOR_ADR);
+  byte buffer[4]; // see data sheet page 13 for register details
+  buffer[0] = 0x00;
+  buffer[1] = 0x00;
+  buffer[2] = 0x00;
+  buffer[3] = NEW_SENSOR_ADR;
+  Wire.write(addr);
+  Serial.print("no. of bytes written to address register: ");
+  Serial.println(Wire.write(buffer, 4));
+  Serial.print("end transmission error code for address register: ");
+  Serial.println(Wire.endTransmission(true));
+}
+
+void readI2Caddress(bool persistant) {
+  int addr = addrRegister(persistant);
+  Wire.beginTransmission(CURRENT_SENSOR_ADR);
+  Wire.write(addr);
+  Wire.endTransmission(false);
+  Wire.requestFrom(CURRENT_SENSOR_ADR, 4, true);  
+
+  Serial.print("bytes in address register ");
+  Serial.print(addr, HEX);
+  Serial.print(" (hex): ");
+  while (Wire.available()) { 
+    int i = Wire.read();
+    Serial.print(i, HEX);
+    Serial.print( " ");
+  }
+  Serial.println("");
+}
+
+void setup(){
+  Serial.begin(115200);
+  Wire.begin(); 
+  Serial.println();
+  
+  //activateCustomerAccessMode(); delay(100);
+
+  //writeI2Caddress(false); delay(100); // bool param is whether to write persistant (only 1000 times possible!) or transient address register
+
+  readI2Caddress(false); // bool param is whether to read persistant or transient address register
+
+  // scan for i2c devices and print their addresses.
+  // changing address of A1454 seems to require writing to persistant address register and power cycle the device
+  scan();
+  Serial.println();
+}
+
+void loop(){}
