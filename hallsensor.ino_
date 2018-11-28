@@ -1,5 +1,5 @@
 #include <Wire.h>
-const int SENSOR_ADR=0x42;
+const int SENSOR_ADR=0x00;
 const int HALL_REGISTER_ADR=0x1F;
 const int HALL_REGISTER_SIZE_BYTE=4;
 

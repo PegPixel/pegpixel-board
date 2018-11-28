@@ -35,7 +35,7 @@ return ready;
 }
 
 const int CUST_ACC_ADR=0x24;
-const int CURRENT_SENSOR_ADR=0x42;
+const int CURRENT_SENSOR_ADR=0x00;
 const int NEW_SENSOR_ADR=0x43; // (10 ... 127 I think, to be checked!!)
 
 void activateCustomerAccessMode() {
@@ -95,9 +95,9 @@ void setup(){
   
   //activateCustomerAccessMode(); delay(100);
 
-  //writeI2Caddress(false); delay(100); // bool param is whether to write persistant (only 1000 times possible!) or transient address register
+  //writeI2Caddress(true); delay(100); // bool param is whether to write persistant (only 1000 times possible!) or transient address register
 
-  readI2Caddress(false); // bool param is whether to read persistant or transient address register
+  readI2Caddress(true); // bool param is whether to read persistant or transient address register
 
   // scan for i2c devices and print their addresses.
   // changing address of A1454 seems to require writing to persistant address register and power cycle the device
