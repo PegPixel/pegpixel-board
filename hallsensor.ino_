@@ -1,5 +1,4 @@
 #include <Wire.h>
-const int SENSOR_ADR=0x00;
 const int HALL_REGISTER_ADR=0x1F;
 const int HALL_REGISTER_SIZE_BYTE=4;
 
@@ -8,16 +7,28 @@ void setup() {
   Serial.begin(115200); 
 }
 
-void loop() {
-  Wire.beginTransmission(SENSOR_ADR);
+void loop() { 
+  Serial.print("0x42: ");
+  Serial.println(readSensor(0x42));
+  delay(500);
+  Serial.print("0x43: ");
+  Serial.println(readSensor(0x43));
+  delay(500);
+}
+
+bool readSensor(int sensorAdr) {
+  Wire.beginTransmission(sensorAdr);
   Wire.write(HALL_REGISTER_ADR);
   Wire.endTransmission(false);
-  Wire.requestFrom(SENSOR_ADR, HALL_REGISTER_SIZE_BYTE, true);  
+  Wire.requestFrom(sensorAdr, HALL_REGISTER_SIZE_BYTE, true);  
   
-  while (Wire.available()) { 
-    int i = Wire.read();
-    Serial.print(i);
-  }
-  Serial.println(" fertig ");
-  delay(500);
+  int bytesAvailable = Wire.available();
+  byte data[bytesAvailable];
+  for (int i = 0; i < bytesAvailable; i++)
+    data[i] = Wire.read();
+
+  if (data[2] == 15 && data[3] == 252)
+    return false;
+  else
+    return data[2] > 12;
 }

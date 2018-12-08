@@ -1,6 +1,12 @@
 #include <ArduinoJson.h>
 #include <BluetoothSerial.h>
 #include <NeoPixelBrightnessBus.h>
+#include <Wire.h>
+
+const int HALL_REGISTER_ADR=0x1F;
+const int HALL_REGISTER_SIZE_BYTE=4;
+const int NUMBER_OF_HALL_SENSORS=2;
+const int HALL_SENSOR_OFFSET=0x42; 
 
 #ifdef __AVR__
   #include <avr/power.h>
@@ -12,7 +18,7 @@
 #define ROWS 4
 #define NUM_PIXELS (COLUMNS * ROWS)
 
-NeoPixelBrightnessBus<NeoGrbFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
+NeoPixelBrightnessBus<NeoGrbwFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
 NeoGamma<NeoGammaTableMethod> colorGamma;
 
 BluetoothSerial mySerial;
@@ -27,9 +33,10 @@ struct ParsedPixel {
 };
 
 void setup() {
-  int baudRate = 9600;
   Serial.setTimeout(10);
-  Serial.begin(baudRate);
+  Serial.begin(115200);
+
+  Wire.begin();
   
   mySerial.begin("pegpixel-board");
   
@@ -39,8 +46,18 @@ void setup() {
 }
 
 void loop() {
+  delay(500);
+  drawHallSensorUpdates();
   drawBluetoothUpdates();
   updatePixelBrightness();
+}
+
+void drawHallSensorUpdates() {
+  for (int i = 0; i < NUMBER_OF_HALL_SENSORS; i++)
+    if (readSensor(i + HALL_SENSOR_OFFSET)) {
+      pixels.SetPixelColor(i, createCorrectedColor(0, 0, 0));
+      pixels.Show();
+    }
 }
 
 void drawBluetoothUpdates(){
@@ -178,4 +195,22 @@ void updatePixelBrightness(){
 
 RgbColor createCorrectedColor(int red, int green, int blue){
   return colorGamma.Correct(RgbColor(red, green, blue));
+}
+
+
+bool readSensor(int sensorAdr) {
+  Wire.beginTransmission(sensorAdr);
+  Wire.write(HALL_REGISTER_ADR);
+  Wire.endTransmission(false);
+  Wire.requestFrom(sensorAdr, HALL_REGISTER_SIZE_BYTE, true);  
+  
+  int bytesAvailable = Wire.available();
+  byte data[bytesAvailable];
+  for (int i = 0; i < bytesAvailable; i++)
+    data[i] = Wire.read();
+    
+  if (data[2] == 15 && data[3] == 252)
+    return false;
+  else
+    return data[2] > 14;
 }
