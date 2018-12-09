@@ -2,6 +2,7 @@
 #include <BluetoothSerial.h>
 #include <NeoPixelBrightnessBus.h>
 #include <Wire.h>
+#include <neotimer.h>
 
 const int HALL_REGISTER_ADR=0x1F;
 const int HALL_REGISTER_SIZE_BYTE=4;
@@ -21,6 +22,8 @@ const int HALL_SENSOR_OFFSET=0x42;
 NeoPixelBrightnessBus<NeoGrbwFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
 NeoGamma<NeoGammaTableMethod> colorGamma;
 
+Neotimer timer;
+
 BluetoothSerial mySerial;
 
 struct ParsedPixel {
@@ -33,6 +36,8 @@ struct ParsedPixel {
 };
 
 void setup() {
+  timer.set(500);
+  
   Serial.setTimeout(10);
   Serial.begin(115200);
 
@@ -46,8 +51,9 @@ void setup() {
 }
 
 void loop() {
-  delay(500);
-  drawHallSensorUpdates();
+  if (timer.repeat())
+    drawHallSensorUpdates();
+  
   drawBluetoothUpdates();
   updatePixelBrightness();
 }
