@@ -1,6 +1,13 @@
 #include <ArduinoJson.h>
 #include <BluetoothSerial.h>
 #include <NeoPixelBrightnessBus.h>
+#include <Wire.h>
+#include <neotimer.h>
+
+const int HALL_REGISTER_ADR=0x1F;
+const int HALL_REGISTER_SIZE_BYTE=4;
+const int NUMBER_OF_HALL_SENSORS=2;
+const int HALL_SENSOR_OFFSET=0x42; 
 
 #ifdef __AVR__
   #include <avr/power.h>
@@ -12,11 +19,12 @@
 #define ROWS 4
 #define NUM_PIXELS (COLUMNS * ROWS)
 
-NeoPixelBrightnessBus<NeoGrbFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
+NeoPixelBrightnessBus<NeoGrbwFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
 NeoGamma<NeoGammaTableMethod> colorGamma;
 
+Neotimer timer;
+
 BluetoothSerial mySerial;
-const String BluetoothDeviceName = "pegpixel-board";
 
 struct ParsedPixel {
   int x;
@@ -28,11 +36,14 @@ struct ParsedPixel {
 };
 
 void setup() {
-  int baudRate = 9600;
-  Serial.setTimeout(10);
-  Serial.begin(baudRate);
+  timer.set(500);
   
-  mySerial.begin(BluetoothDeviceName);
+  Serial.setTimeout(10);
+  Serial.begin(115200);
+
+  Wire.begin();
+  
+  mySerial.begin("pegpixel-board");
   
   Serial.write("Serial is online\n");
   pixels.Begin();
@@ -40,8 +51,19 @@ void setup() {
 }
 
 void loop() {
+  if (timer.repeat())
+    drawHallSensorUpdates();
+  
   drawBluetoothUpdates();
   updatePixelBrightness();
+}
+
+void drawHallSensorUpdates() {
+  for (int i = 0; i < NUMBER_OF_HALL_SENSORS; i++)
+    if (readSensor(i + HALL_SENSOR_OFFSET)) {
+      pixels.SetPixelColor(i, createCorrectedColor(0, 0, 0));
+      pixels.Show();
+    }
 }
 
 void drawBluetoothUpdates(){
@@ -105,6 +127,21 @@ void drawPixel(ParsedPixel parsedPixel){
   pixels.Show();
 }
 
+void printToSerial(ParsedPixel parsedPixel){
+  Serial.print("pixel - x: ");
+  Serial.print(parsedPixel.x);
+  Serial.print(" - y: ");
+  Serial.print(parsedPixel.y);
+  Serial.print(" - selected: ");
+  Serial.print(parsedPixel.selected);
+  Serial.print(" - r: ");
+  Serial.print(parsedPixel.r);
+  Serial.print(" - g: ");
+  Serial.print(parsedPixel.g);
+  Serial.print(" - b: ");
+  Serial.println(parsedPixel.b);
+}
+
 int getPixelIndex(int column, int row) {
   int rowOffset = row * COLUMNS;
   if(row % 2 == 0) {
@@ -133,10 +170,22 @@ static const uint8_t PROGMEM _sineTable[SINE_TABLE_SIZE] = {
    37, 40, 42, 44, 47, 49, 52, 54, 57, 59, 62, 65, 67, 70, 73, 76,
    79, 82, 85, 88, 90, 93, 97,100,103,106,109,112,115,118,121,124};
 
+void pulseRed(int pixelIndex, boolean infinitely){
+
+  do{
+    for (int i = 0; i < SINE_TABLE_SIZE; i++){
+      uint8_t red = pgm_read_byte(&_sineTable[i]);
+      pixels.SetPixelColor(pixelIndex, createCorrectedColor(red, 0, 0));
+      pixels.Show();
+      delay(10);
+    }
+  }while(infinitely);
+}
+
 int currentSineIndex = 0;
  
 void updatePixelBrightness(){
-  if(millis() % 30 == 0){
+  if(millis() % 5 == 0){
     if(currentSineIndex < SINE_TABLE_SIZE -1){
       currentSineIndex++;    
     } else {
@@ -149,21 +198,25 @@ void updatePixelBrightness(){
   }
 }
 
+
 RgbColor createCorrectedColor(int red, int green, int blue){
   return colorGamma.Correct(RgbColor(red, green, blue));
 }
 
-void printToSerial(ParsedPixel parsedPixel){
-  Serial.print("pixel - x: ");
-  Serial.print(parsedPixel.x);
-  Serial.print(" - y: ");
-  Serial.print(parsedPixel.y);
-  Serial.print(" - selected: ");
-  Serial.print(parsedPixel.selected);
-  Serial.print(" - r: ");
-  Serial.print(parsedPixel.r);
-  Serial.print(" - g: ");
-  Serial.print(parsedPixel.g);
-  Serial.print(" - b: ");
-  Serial.println(parsedPixel.b);
+
+bool readSensor(int sensorAdr) {
+  Wire.beginTransmission(sensorAdr);
+  Wire.write(HALL_REGISTER_ADR);
+  Wire.endTransmission(false);
+  Wire.requestFrom(sensorAdr, HALL_REGISTER_SIZE_BYTE, true);  
+  
+  int bytesAvailable = Wire.available();
+  byte data[bytesAvailable];
+  for (int i = 0; i < bytesAvailable; i++)
+    data[i] = Wire.read();
+    
+  if (data[2] == 15 && data[3] == 252)
+    return false;
+  else
+    return data[2] > 14;
 }
