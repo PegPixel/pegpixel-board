@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="5" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -91,12 +91,12 @@
 </layers>
 <board>
 <plain>
-<wire x1="0" y1="79.746" x2="0" y2="0.254" width="0" layer="20"/>
-<wire x1="0" y1="0.254" x2="0.254" y2="0" width="0" layer="20" curve="90"/>
-<wire x1="0.254" y1="0" x2="100" y2="0" width="0" layer="20"/>
-<wire x1="100" y1="0" x2="100" y2="80" width="0" layer="20"/>
-<wire x1="100" y1="80" x2="0.254" y2="80" width="0" layer="20"/>
-<wire x1="0.254" y1="80" x2="0" y2="79.746" width="0" layer="20" curve="90"/>
+<wire x1="0" y1="23.946" x2="0" y2="7.254" width="0" layer="20"/>
+<wire x1="0" y1="7.254" x2="0.254" y2="7" width="0" layer="20" curve="90"/>
+<wire x1="0.254" y1="7" x2="23.12" y2="7" width="0" layer="20"/>
+<wire x1="23.12" y1="7" x2="23.12" y2="24.2" width="0" layer="20"/>
+<wire x1="23.12" y1="24.2" x2="0.254" y2="24.2" width="0" layer="20"/>
+<wire x1="0.254" y1="24.2" x2="0" y2="23.946" width="0" layer="20" curve="90"/>
 </plain>
 <libraries>
 <library name="rcl" urn="urn:adsk.eagle:library:334">
@@ -1250,27 +1250,18 @@ package type ST</description>
 <description>&lt;b&gt;Single Pads&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="1,6/0,8" urn="urn:adsk.eagle:footprint:30809/1" library_version="1">
-<description>&lt;b&gt;THROUGH-HOLE PAD&lt;/b&gt;</description>
-<wire x1="-0.762" y1="0.762" x2="-0.508" y2="0.762" width="0.1524" layer="21"/>
-<wire x1="-0.762" y1="0.762" x2="-0.762" y2="0.508" width="0.1524" layer="21"/>
-<wire x1="0.762" y1="0.762" x2="0.762" y2="0.508" width="0.1524" layer="21"/>
-<wire x1="0.762" y1="0.762" x2="0.508" y2="0.762" width="0.1524" layer="21"/>
-<wire x1="0.762" y1="-0.508" x2="0.762" y2="-0.762" width="0.1524" layer="21"/>
-<wire x1="0.762" y1="-0.762" x2="0.508" y2="-0.762" width="0.1524" layer="21"/>
-<wire x1="-0.508" y1="-0.762" x2="-0.762" y2="-0.762" width="0.1524" layer="21"/>
-<wire x1="-0.762" y1="-0.762" x2="-0.762" y2="-0.508" width="0.1524" layer="21"/>
-<circle x="0" y="0" radius="0.635" width="0.1524" layer="51"/>
-<pad name="1" x="0" y="0" drill="0.8128" diameter="1.6002" shape="octagon"/>
-<text x="-0.762" y="1.016" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="0" y="0.6" size="0.0254" layer="27">&gt;VALUE</text>
+<package name="SMD1,27-2,54" urn="urn:adsk.eagle:footprint:30822/1" library_version="1">
+<description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
+<smd name="1" x="0" y="0" dx="1.27" dy="2.54" layer="1"/>
+<text x="0" y="0" size="0.0254" layer="27">&gt;VALUE</text>
+<text x="-0.8" y="-2.4" size="1.27" layer="25" rot="R90">&gt;NAME</text>
 </package>
 </packages>
 <packages3d>
-<package3d name="1,6/0,8" urn="urn:adsk.eagle:package:30830/1" type="box" library_version="1">
-<description>THROUGH-HOLE PAD</description>
+<package3d name="SMD1,27-2,54" urn="urn:adsk.eagle:package:30839/1" type="box" library_version="1">
+<description>SMD PAD</description>
 <packageinstances>
-<packageinstance name="1,6/0,8"/>
+<packageinstance name="SMD1,27-2,54"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -1281,7 +1272,8 @@ package type ST</description>
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0" drill="0">
+<class number="0" name="default" width="0.3048" drill="0.508">
+<clearance class="0" value="0.254"/>
 </class>
 </classes>
 <designrules name="default">
@@ -1373,12 +1365,12 @@ design rules under a new name.</description>
 </designrules>
 <autorouter>
 <pass name="Default">
-<param name="RoutingGrid" value="50mil"/>
+<param name="RoutingGrid" value="0.125mm"/>
 <param name="AutoGrid" value="1"/>
-<param name="Efforts" value="0"/>
+<param name="Efforts" value="1"/>
 <param name="TopRouterVariant" value="1"/>
 <param name="tpViaShape" value="round"/>
-<param name="PrefDir.1" value="a"/>
+<param name="PrefDir.1" value="*"/>
 <param name="PrefDir.2" value="0"/>
 <param name="PrefDir.3" value="0"/>
 <param name="PrefDir.4" value="0"/>
@@ -1393,7 +1385,7 @@ design rules under a new name.</description>
 <param name="PrefDir.13" value="0"/>
 <param name="PrefDir.14" value="0"/>
 <param name="PrefDir.15" value="0"/>
-<param name="PrefDir.16" value="a"/>
+<param name="PrefDir.16" value="*"/>
 <param name="cfVia" value="8"/>
 <param name="cfNonPref" value="5"/>
 <param name="cfChangeDir" value="2"/>
@@ -1468,123 +1460,177 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="C1" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="104" x="-30.48" y="3.81" smashed="yes">
-<attribute name="NAME" x="-31.75" y="5.08" size="1.27" layer="25"/>
-<attribute name="SPICEPREFIX" value="C" x="0" y="0" size="1.778" layer="27" display="off"/>
-<attribute name="VALUE" x="-31.75" y="1.27" size="1.27" layer="27"/>
+<element name="C1" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="104" x="11.21" y="21.32" smashed="yes" rot="R180">
+<attribute name="NAME" x="12.48" y="20.05" size="1.27" layer="25" rot="R180"/>
+<attribute name="SPICEPREFIX" value="C" x="-19.27" y="25.13" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="VALUE" x="12.48" y="23.86" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="H1" library="a1454" package="TSSOP8" package3d_urn="urn:adsk.eagle:package:20813/2" value="A1454SMD" x="-16.51" y="3.81" smashed="yes">
-<attribute name="NAME" x="-18.135" y="0.885" size="1.27" layer="25" rot="R90"/>
-<attribute name="VALUE" x="-13.585" y="0.56" size="1.27" layer="27" rot="R90"/>
+<element name="H1" library="a1454" package="TSSOP8" package3d_urn="urn:adsk.eagle:package:20813/2" value="A1454SMD" x="10.97" y="9.78" smashed="yes" rot="R90">
+<attribute name="NAME" x="13.895" y="8.155" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="14.22" y="12.705" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="LED1" library="SK6812" package="LED5050" value="" x="-24.13" y="3.81" smashed="yes">
-<attribute name="NAME" x="-26.035" y="6.704" size="0.8128" layer="25" ratio="18"/>
-<attribute name="VALUE" x="-25.908" y="0.435" size="0.4064" layer="27" ratio="10"/>
+<element name="LED1" library="SK6812" package="LED5050" value="" x="10.86" y="15.78" smashed="yes">
+<attribute name="NAME" x="8.955" y="18.674" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="9.082" y="12.405" size="0.4064" layer="27" ratio="10"/>
 </element>
-<element name="PAD1" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="5V IN" x="-17.78" y="16.51" smashed="yes">
-<attribute name="NAME" x="-18.542" y="17.526" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-17.78" y="17.11" size="0.0254" layer="27"/>
+<element name="VCC_IN" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="3" y="22" smashed="yes" rot="R270">
+<attribute name="NAME" x="0.6" y="22.8" size="1.27" layer="25"/>
+<attribute name="VALUE" x="19" y="18" size="0.0254" layer="27" rot="R270"/>
 </element>
-<element name="PAD10" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="SDA OUT" x="-19.05" y="11.43" smashed="yes">
-<attribute name="NAME" x="-19.812" y="12.446" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-19.05" y="12.03" size="0.0254" layer="27"/>
+<element name="D_IN" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="3" y="19" smashed="yes" rot="R270">
+<attribute name="NAME" x="0.6" y="19.8" size="1.27" layer="25"/>
+<attribute name="VALUE" x="0" y="21" size="0.0254" layer="27" rot="R270"/>
 </element>
-<element name="PAD11" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="SCL OUT" x="-34.29" y="11.43" smashed="yes">
-<attribute name="NAME" x="-35.052" y="12.446" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-34.29" y="12.03" size="0.0254" layer="27"/>
+<element name="SCL_IN" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="3" y="16" smashed="yes" rot="R90">
+<attribute name="NAME" x="5.4" y="15.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="3" y="16" size="0.0254" layer="27" rot="R180"/>
 </element>
-<element name="PAD12" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="GND OUT" x="-26.67" y="11.43" smashed="yes">
-<attribute name="NAME" x="-27.432" y="12.446" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-26.67" y="12.03" size="0.0254" layer="27"/>
+<element name="SDA_IN" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="3" y="13" smashed="yes" rot="R90">
+<attribute name="NAME" x="5.4" y="12.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="1" y="13" size="0.0254" layer="27" rot="R90"/>
 </element>
-<element name="PAD2" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="3V IN" x="-24.13" y="16.51" smashed="yes">
-<attribute name="NAME" x="-24.892" y="17.526" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-24.13" y="17.11" size="0.0254" layer="27"/>
+<element name="GND_IN" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="3" y="10" smashed="yes" rot="R90">
+<attribute name="NAME" x="5.4" y="9.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="3" y="8" size="0.0254" layer="27" rot="R90"/>
 </element>
-<element name="PAD3" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="D IN" x="-30.48" y="16.51" smashed="yes">
-<attribute name="NAME" x="-31.242" y="17.526" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-30.48" y="17.11" size="0.0254" layer="27"/>
+<element name="VCC_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="20" y="22" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.4" y="21.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="20" y="22" size="0.0254" layer="27"/>
 </element>
-<element name="PAD4" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="SDA IN" x="-17.78" y="21.59" smashed="yes">
-<attribute name="NAME" x="-18.542" y="22.606" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-17.78" y="22.19" size="0.0254" layer="27"/>
+<element name="SCL_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="20" y="16" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.4" y="15.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="19" y="16" size="0.0254" layer="27" rot="R278"/>
 </element>
-<element name="PAD5" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="SCL IN" x="-24.13" y="21.59" smashed="yes">
-<attribute name="NAME" x="-24.892" y="22.606" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-24.13" y="22.19" size="0.0254" layer="27"/>
+<element name="D_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="20" y="19" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.4" y="18.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="20" y="19" size="0.0254" layer="27" rot="R90"/>
 </element>
-<element name="PAD6" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="GND IN" x="-30.48" y="21.59" smashed="yes">
-<attribute name="NAME" x="-31.242" y="22.606" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-30.48" y="22.19" size="0.0254" layer="27"/>
+<element name="SDA_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="20" y="13" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.4" y="12.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="20" y="13" size="0.0254" layer="27" rot="R90"/>
 </element>
-<element name="PAD7" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="5V OUT" x="-17.78" y="26.67" smashed="yes">
-<attribute name="NAME" x="-18.542" y="27.686" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-17.78" y="27.27" size="0.0254" layer="27"/>
-</element>
-<element name="PAD8" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="3V OUT" x="-24.13" y="26.67" smashed="yes">
-<attribute name="NAME" x="-24.892" y="27.686" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-24.13" y="27.27" size="0.0254" layer="27"/>
-</element>
-<element name="PAD9" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="1,6/0,8" package3d_urn="urn:adsk.eagle:package:30830/1" value="D OUT" x="-30.48" y="26.67" smashed="yes">
-<attribute name="NAME" x="-31.242" y="27.686" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="-30.48" y="27.27" size="0.0254" layer="27"/>
+<element name="GND_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="SMD1,27-2,54" package3d_urn="urn:adsk.eagle:package:30839/1" value="WIREPADSMD1,27-254" x="20" y="10" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.4" y="9.2" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="20" y="10" size="0.0254" layer="27" rot="R270"/>
 </element>
 </elements>
 <signals>
-<signal name="N$1">
-<contactref element="PAD1" pad="1"/>
-<contactref element="PAD7" pad="1"/>
-<contactref element="C1" pad="1"/>
-<contactref element="LED1" pad="1-VDD"/>
-<wire x1="-21.68" y1="2.16" x2="-31.43" y2="3.81" width="0" layer="19" extent="1-1"/>
-<wire x1="-17.78" y1="16.51" x2="-21.68" y2="2.16" width="0" layer="19" extent="1-1"/>
-<wire x1="-17.78" y1="26.67" x2="-17.78" y2="16.51" width="0" layer="19" extent="1-1"/>
-</signal>
 <signal name="N$2">
-<contactref element="PAD2" pad="1"/>
-<contactref element="PAD8" pad="1"/>
 <contactref element="H1" pad="2"/>
 <contactref element="H1" pad="1"/>
 <contactref element="H1" pad="6"/>
-<wire x1="-17.485" y1="0.885" x2="-16.835" y2="0.885" width="0" layer="19" extent="1-1"/>
-<wire x1="-16.185" y1="6.735" x2="-16.835" y2="0.885" width="0" layer="19" extent="1-1"/>
-<wire x1="-24.13" y1="16.51" x2="-16.185" y2="6.735" width="0" layer="19" extent="1-1"/>
-<wire x1="-24.13" y1="26.67" x2="-24.13" y2="16.51" width="0" layer="19" extent="1-1"/>
-</signal>
-<signal name="N$3">
-<contactref element="PAD6" pad="1"/>
-<contactref element="PAD12" pad="1"/>
-<contactref element="C1" pad="2"/>
-<contactref element="LED1" pad="3-GND"/>
-<contactref element="H1" pad="3"/>
-<wire x1="-26.58" y1="5.46" x2="-29.53" y2="3.81" width="0" layer="19" extent="1-1"/>
-<wire x1="-26.67" y1="11.43" x2="-26.58" y2="5.46" width="0" layer="19" extent="1-1"/>
-<wire x1="-30.48" y1="21.59" x2="-26.67" y2="11.43" width="0" layer="19" extent="1-1"/>
-<wire x1="-16.185" y1="0.885" x2="-26.58" y2="5.46" width="0" layer="19" extent="1-1"/>
+<contactref element="LED1" pad="1-VDD"/>
+<contactref element="C1" pad="1"/>
+<contactref element="VCC_IN" pad="1"/>
+<contactref element="VCC_OUT" pad="1"/>
+<wire x1="13.97" y1="9.4996" x2="13.97" y2="8.9408" width="0.3048" layer="1"/>
+<wire x1="13.97" y1="8.9408" x2="13.895" y2="8.805" width="0.3048" layer="1"/>
+<wire x1="13.97" y1="9.4996" x2="13.895" y2="9.455" width="0.3048" layer="1"/>
+<wire x1="8.9408" y1="10.0584" x2="8.1026" y2="10.0584" width="0.3048" layer="1"/>
+<wire x1="11.7348" y1="12.8524" x2="10.0584" y2="11.176" width="0.3048" layer="1"/>
+<wire x1="10.0584" y1="11.176" x2="8.9408" y2="10.0584" width="0.3048" layer="1"/>
+<wire x1="12.8524" y1="12.8524" x2="11.7348" y2="12.8524" width="0.3048" layer="1"/>
+<wire x1="13.6906" y1="13.6906" x2="12.8524" y2="12.8524" width="0.3048" layer="1"/>
+<wire x1="13.6906" y1="13.97" x2="13.6906" y2="13.6906" width="0.3048" layer="1"/>
+<wire x1="13.4112" y1="14.2494" x2="13.6906" y2="13.97" width="0.3048" layer="1"/>
+<wire x1="8.1026" y1="10.0584" x2="8.045" y2="10.105" width="0.3048" layer="1"/>
+<wire x1="13.4112" y1="14.2494" x2="13.31" y2="14.13" width="0.3048" layer="1"/>
+<wire x1="13.4112" y1="8.6614" x2="13.6906" y2="8.6614" width="0.3048" layer="1"/>
+<wire x1="13.1318" y1="8.382" x2="13.4112" y2="8.6614" width="0.3048" layer="1"/>
+<wire x1="12.8524" y1="8.382" x2="13.1318" y2="8.382" width="0.3048" layer="1"/>
+<wire x1="10.0584" y1="11.176" x2="12.8524" y2="8.382" width="0.3048" layer="1"/>
+<wire x1="13.6906" y1="8.6614" x2="13.895" y2="8.805" width="0.3048" layer="1"/>
+<wire x1="17.8816" y1="21.5138" x2="12.573" y2="21.5138" width="0.3048" layer="1"/>
+<wire x1="12.573" y1="21.5138" x2="12.2936" y2="21.5138" width="0.3048" layer="1"/>
+<wire x1="18.161" y1="21.7932" x2="17.8816" y2="21.5138" width="0.3048" layer="1"/>
+<wire x1="19.8374" y1="21.7932" x2="18.161" y2="21.7932" width="0.3048" layer="1"/>
+<wire x1="12.2936" y1="21.5138" x2="12.16" y2="21.32" width="0.3048" layer="1"/>
+<wire x1="19.8374" y1="21.7932" x2="20" y2="22" width="0.3048" layer="1"/>
+<wire x1="6.7056" y1="22.0726" x2="3.0734" y2="22.0726" width="0.3048" layer="1"/>
+<wire x1="9.2202" y1="19.558" x2="6.7056" y2="22.0726" width="0.3048" layer="1"/>
+<wire x1="11.4554" y1="19.558" x2="9.2202" y2="19.558" width="0.3048" layer="1"/>
+<wire x1="12.573" y1="20.6756" x2="11.4554" y2="19.558" width="0.3048" layer="1"/>
+<wire x1="12.573" y1="21.5138" x2="12.573" y2="20.6756" width="0.3048" layer="1"/>
+<wire x1="3.0734" y1="22.0726" x2="3" y2="22" width="0.3048" layer="1"/>
+<wire x1="12.573" y1="21.5138" x2="12.16" y2="21.32" width="0.3048" layer="1"/>
+<wire x1="13.1318" y1="15.0876" x2="13.1318" y2="14.2494" width="0.3048" layer="1"/>
+<wire x1="11.4554" y1="16.764" x2="13.1318" y2="15.0876" width="0.3048" layer="1"/>
+<wire x1="11.4554" y1="19.558" x2="11.4554" y2="16.764" width="0.3048" layer="1"/>
+<wire x1="13.1318" y1="14.2494" x2="13.31" y2="14.13" width="0.3048" layer="1"/>
 </signal>
 <signal name="N$4">
-<contactref element="PAD5" pad="1"/>
-<contactref element="PAD11" pad="1"/>
 <contactref element="H1" pad="8"/>
-<wire x1="-24.13" y1="21.59" x2="-34.29" y2="11.43" width="0" layer="19" extent="1-1"/>
-<wire x1="-17.485" y1="6.735" x2="-24.13" y2="21.59" width="0" layer="19" extent="1-1"/>
+<contactref element="SCL_IN" pad="1"/>
+<contactref element="SCL_OUT" pad="1"/>
+<wire x1="7.5438" y1="8.6614" x2="7.8232" y2="8.6614" width="0.3048" layer="1"/>
+<wire x1="7.2644" y1="8.382" x2="7.5438" y2="8.6614" width="0.3048" layer="1"/>
+<wire x1="6.985" y1="8.382" x2="7.2644" y2="8.382" width="0.3048" layer="1"/>
+<wire x1="6.4262" y1="8.9408" x2="6.985" y2="8.382" width="0.3048" layer="1"/>
+<wire x1="6.4262" y1="11.176" x2="6.4262" y2="8.9408" width="0.3048" layer="16"/>
+<wire x1="4.191" y1="13.4112" x2="5.588" y2="12.0142" width="0.3048" layer="16"/>
+<wire x1="5.588" y1="12.0142" x2="6.4262" y2="11.176" width="0.3048" layer="16"/>
+<wire x1="4.191" y1="14.5288" x2="4.191" y2="13.4112" width="0.3048" layer="16"/>
+<wire x1="2.794" y1="15.9258" x2="4.191" y2="14.5288" width="0.3048" layer="1"/>
+<wire x1="7.8232" y1="8.6614" x2="8.045" y2="8.805" width="0.3048" layer="1"/>
+<wire x1="2.794" y1="15.9258" x2="3" y2="16" width="0.3048" layer="1"/>
+<wire x1="17.8816" y1="16.2052" x2="19.8374" y2="16.2052" width="0.3048" layer="1"/>
+<wire x1="9.779" y1="16.2052" x2="17.8816" y2="16.2052" width="0.3048" layer="16"/>
+<wire x1="5.588" y1="12.0142" x2="9.779" y2="16.2052" width="0.3048" layer="16"/>
+<wire x1="19.8374" y1="16.2052" x2="20" y2="16" width="0.3048" layer="1"/>
+<via x="6.4262" y="8.9408" extent="1-16" drill="0.508"/>
+<via x="4.191" y="14.5288" extent="1-16" drill="0.508"/>
+<via x="17.8816" y="16.2052" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="N$5">
-<contactref element="PAD4" pad="1"/>
-<contactref element="PAD10" pad="1"/>
 <contactref element="H1" pad="7"/>
-<wire x1="-19.05" y1="11.43" x2="-16.835" y2="6.735" width="0" layer="19" extent="1-1"/>
-<wire x1="-17.78" y1="21.59" x2="-19.05" y2="11.43" width="0" layer="19" extent="1-1"/>
+<contactref element="SDA_IN" pad="1"/>
+<contactref element="SDA_OUT" pad="1"/>
+<wire x1="7.2644" y1="9.4996" x2="7.8232" y2="9.4996" width="0.3048" layer="1"/>
+<wire x1="5.3086" y1="11.4554" x2="5.8674" y2="10.8966" width="0.3048" layer="1"/>
+<wire x1="5.8674" y1="10.8966" x2="7.2644" y2="9.4996" width="0.3048" layer="1"/>
+<wire x1="5.3086" y1="12.2936" x2="5.3086" y2="11.4554" width="0.3048" layer="1"/>
+<wire x1="4.7498" y1="12.8524" x2="5.3086" y2="12.2936" width="0.3048" layer="1"/>
+<wire x1="3.0734" y1="12.8524" x2="4.7498" y2="12.8524" width="0.3048" layer="1"/>
+<wire x1="7.8232" y1="9.4996" x2="8.045" y2="9.455" width="0.3048" layer="1"/>
+<wire x1="3.0734" y1="12.8524" x2="3" y2="13" width="0.3048" layer="1"/>
+<wire x1="17.8816" y1="13.1318" x2="19.8374" y2="13.1318" width="0.3048" layer="1"/>
+<wire x1="8.1026" y1="13.1318" x2="17.8816" y2="13.1318" width="0.3048" layer="16"/>
+<wire x1="6.985" y1="12.0142" x2="8.1026" y2="13.1318" width="0.3048" layer="16"/>
+<wire x1="5.8674" y1="10.8966" x2="6.985" y2="12.0142" width="0.3048" layer="1"/>
+<wire x1="19.8374" y1="13.1318" x2="20" y2="13" width="0.3048" layer="1"/>
+<via x="17.8816" y="13.1318" extent="1-16" drill="0.508"/>
+<via x="6.985" y="12.0142" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="N$6">
-<contactref element="PAD3" pad="1"/>
 <contactref element="LED1" pad="4-DIN"/>
-<wire x1="-30.48" y1="16.51" x2="-26.58" y2="2.16" width="0" layer="19" extent="1-1"/>
+<contactref element="D_IN" pad="1"/>
+<wire x1="8.382" y1="15.0876" x2="8.382" y2="14.2494" width="0.3048" layer="1"/>
+<wire x1="4.191" y1="19.2786" x2="8.382" y2="15.0876" width="0.3048" layer="1"/>
+<wire x1="3.0734" y1="19.2786" x2="4.191" y2="19.2786" width="0.3048" layer="1"/>
+<wire x1="8.382" y1="14.2494" x2="8.41" y2="14.13" width="0.3048" layer="1"/>
+<wire x1="3.0734" y1="19.2786" x2="3" y2="19" width="0.3048" layer="1"/>
 </signal>
 <signal name="N$7">
-<contactref element="PAD9" pad="1"/>
 <contactref element="LED1" pad="2-DOUT"/>
-<wire x1="-30.48" y1="26.67" x2="-21.68" y2="5.46" width="0" layer="19" extent="1-1"/>
+<contactref element="D_OUT" pad="1"/>
+<wire x1="17.0434" y1="17.6022" x2="13.4112" y2="17.6022" width="0.3048" layer="1"/>
+<wire x1="18.7198" y1="19.2786" x2="17.0434" y2="17.6022" width="0.3048" layer="1"/>
+<wire x1="19.8374" y1="19.2786" x2="18.7198" y2="19.2786" width="0.3048" layer="1"/>
+<wire x1="13.4112" y1="17.6022" x2="13.31" y2="17.43" width="0.3048" layer="1"/>
+<wire x1="19.8374" y1="19.2786" x2="20" y2="19" width="0.3048" layer="1"/>
+</signal>
+<signal name="GND">
+<contactref element="LED1" pad="3-GND"/>
+<contactref element="C1" pad="2"/>
+<contactref element="H1" pad="3"/>
+<contactref element="GND_IN" pad="1"/>
+<contactref element="GND_OUT" pad="1"/>
+<polygon width="0.1524" layer="1">
+<vertex x="-1" y="25"/>
+<vertex x="-1" y="6"/>
+<vertex x="24" y="6"/>
+<vertex x="24" y="25"/>
+</polygon>
 </signal>
 </signals>
 <mfgpreviewcolors>
