@@ -5328,6 +5328,8 @@ package type ST</description>
 <part name="D_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="WIREPAD" device="SMD1,27-254" package3d_urn="urn:adsk.eagle:package:30839/1"/>
 <part name="SDA_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="WIREPAD" device="SMD1,27-254" package3d_urn="urn:adsk.eagle:package:30839/1"/>
 <part name="GND_OUT" library="wirepad" library_urn="urn:adsk.eagle:library:412" deviceset="WIREPAD" device="SMD1,27-254" package3d_urn="urn:adsk.eagle:package:30839/1"/>
+<part name="C2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="104"/>
+<part name="GND6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5401,6 +5403,13 @@ package type ST</description>
 <attribute name="NAME" x="143.383" y="12.0142" size="1.778" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="143.383" y="6.858" size="1.778" layer="96" rot="MR0"/>
 </instance>
+<instance part="C2" gate="G$1" x="101.6" y="76.2" smashed="yes">
+<attribute name="NAME" x="103.124" y="76.581" size="1.778" layer="95"/>
+<attribute name="VALUE" x="103.124" y="71.501" size="1.778" layer="96"/>
+</instance>
+<instance part="GND6" gate="1" x="101.6" y="68.58" smashed="yes">
+<attribute name="VALUE" x="99.06" y="66.04" size="1.778" layer="96"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -5410,7 +5419,8 @@ package type ST</description>
 <wire x1="-2.54" y1="83.82" x2="35.56" y2="83.82" width="0.1524" layer="91"/>
 <junction x="119.38" y="83.82"/>
 <wire x1="35.56" y1="83.82" x2="71.12" y2="83.82" width="0.1524" layer="91"/>
-<wire x1="71.12" y1="83.82" x2="119.38" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="83.82" x2="101.6" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="83.82" x2="119.38" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="119.38" y1="83.82" x2="139.7" y2="83.82" width="0.1524" layer="91"/>
 <junction x="71.12" y="83.82"/>
 <pinref part="H1" gate="G$1" pin="ADR0"/>
@@ -5431,6 +5441,9 @@ package type ST</description>
 <wire x1="35.56" y1="78.74" x2="58.42" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="VCC_IN" gate="G$1" pin="P"/>
 <pinref part="VCC_OUT" gate="G$1" pin="P"/>
+<pinref part="C2" gate="G$1" pin="1"/>
+<wire x1="101.6" y1="83.82" x2="101.6" y2="78.74" width="0.1524" layer="91"/>
+<junction x="101.6" y="83.82"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -5496,6 +5509,10 @@ package type ST</description>
 <pinref part="GND2" gate="1" pin="GND"/>
 <wire x1="124.46" y1="10.16" x2="139.7" y2="10.16" width="0.1524" layer="91"/>
 <pinref part="GND_OUT" gate="G$1" pin="P"/>
+</segment>
+<segment>
+<pinref part="C2" gate="G$1" pin="2"/>
+<pinref part="GND6" gate="1" pin="GND"/>
 </segment>
 </net>
 </nets>
