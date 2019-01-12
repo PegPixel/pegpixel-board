@@ -90,7 +90,7 @@
 <layer number="254" name="OrgLBR" color="13" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyY2NlYWRm" projecturn="a.cGVyc29uYWw6dWUyY2NlYWRmIzIwMTgxMjA1MTYzOTU0MjU2" f3durn="urn:adsk.wipprod:dm.lineage:qyzXckb4RcSP1Y-8RWG8IQ" pcbguid="1db987de-61c2-4902-8df2-387487b94e24" lastpulledtime="" lastsyncedchangeguid="59754419-7817-5835-f878-32cfc54ef6ca"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyY2NlYWRm" projecturn="a.cGVyc29uYWw6dWUyY2NlYWRmIzIwMTgxMjA1MTYzOTU0MjU2" f3durn="urn:adsk.wipprod:dm.lineage:qyzXckb4RcSP1Y-8RWG8IQ" pcbguid="1db987de-61c2-4902-8df2-387487b94e24" lastpulledtime="" lastsyncedchangeguid="1738a2bc-5d28-a458-76c7-b2e523fdd298"/>
 <plain>
 <wire x1="0.733446875" y1="14.2170375" x2="0.748859375" y2="0.280228125" width="0" layer="20"/>
 <wire x1="0.748859375" y1="0.280228125" x2="0.7454875" y2="-0.00511875" width="0" layer="20"/>
@@ -98,7 +98,7 @@
 <wire x1="22.368859375" y1="0.026228125" x2="22.368859375" y2="14.226228125" width="0" layer="20"/>
 <wire x1="22.368859375" y1="14.226228125" x2="0.978853125" y2="14.227021875" width="0" layer="20"/>
 <wire x1="0.978853125" y1="14.227021875" x2="0.733446875" y2="14.2170375" width="0" layer="20"/>
-<text x="17.798859375" y="1.126228125" size="1.778" layer="25" rot="R90.1">PegPixel v1</text>
+<text x="17.898859375" y="0.826228125" size="1.778" layer="25" rot="R90.1">PegPixel v1</text>
 <text x="4.95" y="11.7" size="1.016" layer="25">VCC</text>
 <text x="4.95" y="9.15" size="1.016" layer="25">D</text>
 <text x="4.95" y="6.65" size="1.016" layer="25">SDA</text>
