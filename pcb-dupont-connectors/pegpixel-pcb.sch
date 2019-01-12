@@ -4984,7 +4984,7 @@ package type ST</description>
 </classes>
 <parts>
 <part name="LED1" library="SK6812" deviceset="SK6812" device="_5050"/>
-<part name="C1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="104"/>
+<part name="104" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="104"/>
 <part name="H1" library="a1454" deviceset="A1454" device="SMD" package3d_urn="urn:adsk.eagle:package:20813/2"/>
 <part name="GND1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
@@ -5003,7 +5003,7 @@ package type ST</description>
 <attribute name="NAME" x="44.45" y="56.515" size="1.27" layer="95"/>
 <attribute name="VALUE" x="44.45" y="54.61" size="1.27" layer="96"/>
 </instance>
-<instance part="C1" gate="G$1" x="27.94" y="76.2" smashed="yes">
+<instance part="104" gate="G$1" x="27.94" y="76.2" smashed="yes">
 <attribute name="NAME" x="29.464" y="76.581" size="1.778" layer="95"/>
 <attribute name="VALUE" x="29.464" y="71.501" size="1.778" layer="96"/>
 </instance>
@@ -5067,7 +5067,7 @@ package type ST</description>
 <wire x1="109.22" y1="83.82" x2="104.14" y2="83.82" width="0.1524" layer="91"/>
 <junction x="104.14" y="83.82"/>
 <junction x="27.94" y="83.82"/>
-<pinref part="C1" gate="G$1" pin="1"/>
+<pinref part="104" gate="G$1" pin="1"/>
 <wire x1="27.94" y1="78.74" x2="27.94" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -5097,7 +5097,7 @@ package type ST</description>
 </net>
 <net name="GND" class="0">
 <segment>
-<pinref part="C1" gate="G$1" pin="2"/>
+<pinref part="104" gate="G$1" pin="2"/>
 <pinref part="GND3" gate="1" pin="GND"/>
 </segment>
 <segment>

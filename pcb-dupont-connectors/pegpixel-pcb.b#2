@@ -3,10 +3,10 @@
 <eagle version="9.2.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.25" unitdist="mm" unit="mm" style="lines" multiple="5" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="5" display="no" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -90,16 +90,20 @@
 <layer number="254" name="OrgLBR" color="13" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyY2NlYWRm" projecturn="a.cGVyc29uYWw6dWUyY2NlYWRmIzIwMTgxMjA1MTYzOTU0MjU2" f3durn="urn:adsk.wipprod:dm.lineage:qyzXckb4RcSP1Y-8RWG8IQ" pcbguid="1db987de-61c2-4902-8df2-387487b94e24" lastpulledtime="" lastsyncedchangeguid="1738a2bc-5d28-a458-76c7-b2e523fdd298"/>
 <plain>
-<wire x1="-0.022525" y1="13.995990625" x2="-0.001140625" y2="0.280228125" width="0" layer="20"/>
-<wire x1="-0.001140625" y1="0.280228125" x2="-0.0045125" y2="-0.00511875" width="0" layer="20"/>
-<wire x1="-0.0045125" y1="-0.00511875" x2="22.618859375" y2="0.026228125" width="0" layer="20"/>
-<wire x1="22.618859375" y1="0.026228125" x2="22.618859375" y2="14.226228125" width="0" layer="20"/>
-<wire x1="22.618859375" y1="14.226228125" x2="-0.021146875" y2="14.227021875" width="0" layer="20"/>
-<wire x1="-0.021146875" y1="14.227021875" x2="-0.022525" y2="13.995990625" width="0" layer="20"/>
-<text x="17.998859375" y="2.526228125" size="1.778" layer="25" rot="R90.1">PegPixel</text>
-<text x="7.998859375" y="4.026228125" size="1.016" layer="25">A1454</text>
-<text x="9.248859375" y="10.276228125" size="1.016" layer="25">SK6812</text>
+<wire x1="0.733446875" y1="14.2170375" x2="0.748859375" y2="0.280228125" width="0" layer="20"/>
+<wire x1="0.748859375" y1="0.280228125" x2="0.7454875" y2="-0.00511875" width="0" layer="20"/>
+<wire x1="0.7454875" y1="-0.00511875" x2="22.368859375" y2="0.026228125" width="0" layer="20"/>
+<wire x1="22.368859375" y1="0.026228125" x2="22.368859375" y2="14.226228125" width="0" layer="20"/>
+<wire x1="22.368859375" y1="14.226228125" x2="0.978853125" y2="14.227021875" width="0" layer="20"/>
+<wire x1="0.978853125" y1="14.227021875" x2="0.733446875" y2="14.2170375" width="0" layer="20"/>
+<text x="17.898859375" y="0.826228125" size="1.778" layer="25" rot="R90.1">PegPixel v1</text>
+<text x="4.95" y="11.7" size="1.016" layer="25">VCC</text>
+<text x="4.95" y="9.15" size="1.016" layer="25">D</text>
+<text x="4.95" y="6.65" size="1.016" layer="25">SDA</text>
+<text x="4.95" y="3.95" size="1.016" layer="25">SCL</text>
+<text x="4.95" y="1.55" size="1.016" layer="25">GND</text>
 </plain>
 <libraries>
 <library name="rcl" urn="urn:adsk.eagle:library:334">
@@ -1498,9 +1502,9 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="C1" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="104" x="12.208859375" y="12.346228125" smashed="yes">
+<element name="104" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="104" x="12.208859375" y="12.346228125" smashed="yes">
 <attribute name="SPICEPREFIX" value="C" x="42.688859375" y="8.536228125" size="1.778" layer="27" display="off"/>
-<attribute name="VALUE" x="13.938859375" y="11.806228125" size="1.016" layer="27"/>
+<attribute name="VALUE" x="13.438859375" y="11.306228125" size="1.016" layer="25" rot="R180"/>
 </element>
 <element name="H1" library="a1454" package="TSSOP8" package3d_urn="urn:adsk.eagle:package:20813/2" value="A1454SMD" x="11.968859375" y="2.306228125" smashed="yes" rot="R90"/>
 <element name="LED1" library="SK6812" package="LED5050" value="" x="12.358859375" y="7.306228125" smashed="yes">
@@ -1521,7 +1525,7 @@ design rules under a new name.</description>
 <contactref element="LED1" pad="1-VDD"/>
 <contactref element="JP1" pad="1"/>
 <contactref element="JP2" pad="1"/>
-<contactref element="C1" pad="1"/>
+<contactref element="104" pad="1"/>
 <wire x1="14.875" y1="1.875" x2="14.875" y2="1.75" width="0.3048" layer="1"/>
 <wire x1="14.875" y1="1.75" x2="14.875" y2="1.375" width="0.3048" layer="1"/>
 <wire x1="14.875" y1="1.375" x2="14.893859375" y2="1.331228125" width="0.3048" layer="1"/>
@@ -1576,7 +1580,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="GND">
 <contactref element="LED1" pad="3-GND"/>
-<contactref element="C1" pad="2"/>
+<contactref element="104" pad="2"/>
 <contactref element="H1" pad="3"/>
 <polygon width="0.1524" layer="1">
 <vertex x="-2.501140625" y="15.526228125"/>
@@ -1594,6 +1598,7 @@ design rules under a new name.</description>
 </polygon>
 <via x="7.5" y="10.5" extent="1-16" drill="0.35"/>
 <via x="14.75" y="12.75" extent="1-16" drill="0.35"/>
+<via x="17.8" y="8" extent="1-16" drill="0.35"/>
 </signal>
 <signal name="DIN">
 <contactref element="JP1" pad="2"/>
@@ -1627,6 +1632,11 @@ design rules under a new name.</description>
 Since Version 8.2, EAGLE supports online libraries. The ids
 of those online libraries will not be understood (or retained)
 with this version.
+</note>
+<note version="8.3" severity="warning">
+Since Version 8.3, EAGLE supports Fusion synchronisation.
+This feature will not be available in this version and saving
+the document will break the link to the Fusion PCB feature.
 </note>
 <note version="8.3" severity="warning">
 Since Version 8.3, EAGLE supports URNs for individual library
