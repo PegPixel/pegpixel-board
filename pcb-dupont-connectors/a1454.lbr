@@ -66,7 +66,7 @@
 </layers>
 <library>
 <packages>
-<package name="TSSOP8" urn="urn:adsk.eagle:footprint:20626/1">
+<package name="TSSOP8" urn="urn:adsk.eagle:footprint:20626/1" locally_modified="yes">
 <description>&lt;b&gt;Thin Shrink Small Outline Package&lt;/b&gt;&lt;p&gt;
 package type ST</description>
 <wire x1="1.4" y1="-2.15" x2="1.4" y2="2.15" width="0.2032" layer="21"/>
@@ -95,7 +95,7 @@ package type ST</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="TSSOP8" urn="urn:adsk.eagle:package:20813/2" type="model">
+<package3d name="TSSOP8" urn="urn:adsk.eagle:package:20813/2" locally_modified="yes" type="model">
 <description>Thin Shrink Small Outline Package
 package type ST</description>
 <packageinstances>
