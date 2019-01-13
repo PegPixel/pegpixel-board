@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -5026,9 +5026,9 @@ package type ST</description>
 <instance part="GND5" gate="1" x="53.34" y="53.34" smashed="yes" rot="R90">
 <attribute name="VALUE" x="55.88" y="50.8" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="JP1" gate="A" x="5.08" y="48.26" smashed="yes">
-<attribute name="NAME" x="1.27" y="56.515" size="1.778" layer="95"/>
-<attribute name="VALUE" x="-1.27" y="38.1" size="1.778" layer="96"/>
+<instance part="JP1" gate="A" x="2.54" y="48.26" smashed="yes" rot="R180">
+<attribute name="NAME" x="6.35" y="40.005" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="8.89" y="58.42" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="JP2" gate="A" x="124.46" y="48.26" smashed="yes">
 <attribute name="NAME" x="118.11" y="56.515" size="1.778" layer="95"/>
@@ -5055,8 +5055,6 @@ package type ST</description>
 <wire x1="60.96" y1="27.94" x2="71.12" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="LED1" gate="G$1" pin="VDD"/>
 <wire x1="43.18" y1="83.82" x2="43.18" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="JP1" gate="A" pin="1"/>
-<wire x1="2.54" y1="53.34" x2="17.78" y2="53.34" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="53.34" x2="17.78" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="17.78" y1="83.82" x2="27.94" y2="83.82" width="0.1524" layer="91"/>
 <junction x="43.18" y="83.82"/>
@@ -5069,17 +5067,19 @@ package type ST</description>
 <junction x="27.94" y="83.82"/>
 <pinref part="104" gate="G$1" pin="1"/>
 <wire x1="27.94" y1="78.74" x2="27.94" y2="83.82" width="0.1524" layer="91"/>
+<pinref part="JP1" gate="A" pin="5"/>
+<wire x1="5.08" y1="53.34" x2="17.78" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCL" class="0">
 <segment>
 <pinref part="H1" gate="G$1" pin="SCL"/>
 <wire x1="68.58" y1="40.64" x2="71.12" y2="40.64" width="0.1524" layer="91"/>
-<pinref part="JP1" gate="A" pin="4"/>
 <pinref part="JP2" gate="A" pin="4"/>
-<wire x1="2.54" y1="45.72" x2="68.58" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="45.72" x2="121.92" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="40.64" x2="68.58" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="JP1" gate="A" pin="2"/>
+<wire x1="5.08" y1="45.72" x2="68.58" y2="45.72" width="0.1524" layer="91"/>
 <junction x="68.58" y="45.72"/>
 </segment>
 </net>
@@ -5089,7 +5089,7 @@ package type ST</description>
 <wire x1="66.04" y1="48.26" x2="66.04" y2="38.1" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="38.1" x2="71.12" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="JP1" gate="A" pin="3"/>
-<wire x1="2.54" y1="48.26" x2="66.04" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="5.08" y1="48.26" x2="66.04" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="JP2" gate="A" pin="3"/>
 <wire x1="66.04" y1="48.26" x2="121.92" y2="48.26" width="0.1524" layer="91"/>
 <junction x="66.04" y="48.26"/>
@@ -5112,10 +5112,10 @@ package type ST</description>
 <wire x1="43.18" y1="53.34" x2="50.8" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="JP1" gate="A" pin="5"/>
-<wire x1="2.54" y1="43.18" x2="17.78" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 <wire x1="17.78" y1="43.18" x2="17.78" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="JP1" gate="A" pin="1"/>
+<wire x1="5.08" y1="43.18" x2="17.78" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP2" gate="A" pin="5"/>
@@ -5126,10 +5126,10 @@ package type ST</description>
 </net>
 <net name="DIN" class="0">
 <segment>
-<pinref part="JP1" gate="A" pin="2"/>
 <pinref part="LED1" gate="G$1" pin="DI"/>
-<wire x1="2.54" y1="50.8" x2="30.48" y2="50.8" width="0.1524" layer="91"/>
 <wire x1="30.48" y1="50.8" x2="30.48" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="JP1" gate="A" pin="4"/>
+<wire x1="5.08" y1="50.8" x2="30.48" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DOUT" class="0">
