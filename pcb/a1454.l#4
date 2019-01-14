@@ -138,7 +138,7 @@ package type ST</description>
 <gate name="G$1" symbol="HALL-SENSOR-A1454" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="TSSOP8">
+<device name="SMD" package="TSSOP8">
 <connects>
 <connect gate="G$1" pin="ADR0" pad="2"/>
 <connect gate="G$1" pin="ADR1" pad="6"/>

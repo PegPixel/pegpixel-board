@@ -132,7 +132,7 @@ package type ST</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="A1454">
+<deviceset name="A1454" prefix="H">
 <description>Allegro A1454 Hall Effect Sensor with I2C Interface</description>
 <gates>
 <gate name="G$1" symbol="HALL-SENSOR-A1454" x="0" y="0"/>
