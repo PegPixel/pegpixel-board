@@ -98,7 +98,7 @@
 <wire x1="22.368859375" y1="0.026228125" x2="22.368859375" y2="14.226228125" width="0" layer="20"/>
 <wire x1="22.368859375" y1="14.226228125" x2="0.978853125" y2="14.227021875" width="0" layer="20"/>
 <wire x1="0.978853125" y1="14.227021875" x2="0.733446875" y2="14.2170375" width="0" layer="20"/>
-<text x="17.798859375" y="0.826228125" size="1.778" layer="25" rot="R90.1">PegPıxel v1</text>
+<text x="17.598859375" y="0.726228125" size="1.778" layer="25" rot="R90.1">PegPıxel v1</text>
 <text x="4.95" y="11.7" size="1.016" layer="25">VCC</text>
 <text x="4.95" y="9.15" size="1.016" layer="25">D</text>
 <text x="4.95" y="6.65" size="1.016" layer="25">SDA</text>
@@ -1619,7 +1619,7 @@ design rules under a new name.</description>
 </signal>
 </signals>
 <mfgpreviewcolors>
-<mfgpreviewcolor name="soldermaskcolor" color="0xC8008000"/>
+<mfgpreviewcolor name="soldermaskcolor" color="0xC8FF0000"/>
 <mfgpreviewcolor name="silkscreencolor" color="0xFFFEFEFE"/>
 <mfgpreviewcolor name="backgroundcolor" color="0xFF282828"/>
 <mfgpreviewcolor name="coppercolor" color="0xFFFFBF00"/>
