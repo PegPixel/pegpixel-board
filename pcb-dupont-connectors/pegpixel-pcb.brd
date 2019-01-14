@@ -90,7 +90,7 @@
 <layer number="254" name="OrgLBR" color="13" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyY2NlYWRm" projecturn="a.cGVyc29uYWw6dWUyY2NlYWRmIzIwMTgxMjA1MTYzOTU0MjU2" f3durn="urn:adsk.wipprod:dm.lineage:qyzXckb4RcSP1Y-8RWG8IQ" pcbguid="1db987de-61c2-4902-8df2-387487b94e24" lastpulledtime="" lastsyncedchangeguid="f528fcf7-35c6-5123-f53d-10015996d344"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyY2NlYWRm" projecturn="a.cGVyc29uYWw6dWUyY2NlYWRmIzIwMTgxMjA1MTYzOTU0MjU2" f3durn="urn:adsk.wipprod:dm.lineage:qyzXckb4RcSP1Y-8RWG8IQ" pcbguid="1db987de-61c2-4902-8df2-387487b94e24" lastpulledtime="" lastsyncedchangeguid="00d393a4-c0f7-ca8d-6006-3d482e16ff0f"/>
 <plain>
 <wire x1="0.733446875" y1="14.2170375" x2="0.748859375" y2="0.280228125" width="0" layer="20"/>
 <wire x1="0.748859375" y1="0.280228125" x2="0.7454875" y2="-0.00511875" width="0" layer="20"/>
@@ -1596,7 +1596,7 @@ design rules under a new name.</description>
 <vertex x="23.498859375" y="15.026228125"/>
 </polygon>
 <contactref element="JP1" pad="1"/>
-<via x="8.4" y="12.1" extent="1-16" drill="0.35"/>
+<via x="8.3" y="12.5" extent="1-16" drill="0.35"/>
 <via x="17.7" y="7.9" extent="1-16" drill="0.35"/>
 <via x="8.4" y="9" extent="1-16" drill="0.35"/>
 </signal>
