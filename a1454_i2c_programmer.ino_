@@ -36,7 +36,6 @@ return ready;
 
 const int CUST_ACC_ADR=0x24;
 const int CURRENT_SENSOR_ADR=0x00;
-const int NEW_SENSOR_ADR=0x43; // (10 ... 127 I think, to be checked!!)
 
 void activateCustomerAccessMode() {
   byte buffer[4]; // magic string to make sensor writeable until next power cycle (lol, hardware)
@@ -55,14 +54,14 @@ void activateCustomerAccessMode() {
 int addrRegister(bool persistant) { return persistant ? 0x03 : 0x0b; }
 
 // persistent eeprom address can only be written 1000 times!
-void writeI2Caddress(bool persistant) {
+void writeI2Caddress(bool persistant, int newSensorAdress) {
   int addr = addrRegister(persistant);
   Wire.beginTransmission(CURRENT_SENSOR_ADR);
   byte buffer[4]; // see data sheet page 13 for register details
   buffer[0] = 0x00;
   buffer[1] = 0x00;
   buffer[2] = 0x00;
-  buffer[3] = NEW_SENSOR_ADR;
+  buffer[3] = newSensorAdress;
   Wire.write(addr);
   Serial.print("no. of bytes written to address register: ");
   Serial.println(Wire.write(buffer, 4));
@@ -95,12 +94,12 @@ void setup(){
   
   //activateCustomerAccessMode(); delay(100);
 
-  //writeI2Caddress(true); delay(100); // bool param is whether to write persistant (only 1000 times possible!) or transient address register
+  //writeI2Caddress(true, 0x40); delay(100); // bool param is whether to write persistent (only 1000 times possible!) or transient address register
 
-  readI2Caddress(true); // bool param is whether to read persistant or transient address register
+  //readI2Caddress(true); // bool param is whether to read persistent or transient address register
 
   // scan for i2c devices and print their addresses.
-  // changing address of A1454 seems to require writing to persistant address register and power cycle the device
+  // changing address of A1454 seems to require writing to persistent address register and power cycle the device
   scan();
   Serial.println();
 }

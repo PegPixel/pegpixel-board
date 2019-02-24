@@ -7,7 +7,7 @@
 const int HALL_REGISTER_ADR=0x1F;
 const int HALL_REGISTER_SIZE_BYTE=4;
 const int NUMBER_OF_HALL_SENSORS=2;
-const int HALL_SENSOR_OFFSET=0x42; 
+const int HALL_SENSOR_OFFSET=0x40;
 
 #ifdef __AVR__
   #include <avr/power.h>
@@ -15,11 +15,11 @@ const int HALL_SENSOR_OFFSET=0x42;
 
 #define NEOPIXEL_PIN            19
 
-#define COLUMNS 4
-#define ROWS 4
+#define COLUMNS 7
+#define ROWS 5
 #define NUM_PIXELS (COLUMNS * ROWS)
 
-NeoPixelBrightnessBus<NeoGrbwFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
+NeoPixelBrightnessBus<NeoGrbFeature, Neo800KbpsMethod> pixels(NUM_PIXELS, NEOPIXEL_PIN);
 NeoGamma<NeoGammaTableMethod> colorGamma;
 
 Neotimer timer;
