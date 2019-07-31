@@ -7,7 +7,7 @@
 const int HALL_REGISTER_ADR=0x1F;
 const int HALL_REGISTER_SIZE_BYTE=4;
 const int NUMBER_OF_HALL_SENSORS=2;
-const int HALL_SENSOR_OFFSET=0x40;
+const int HALL_SENSOR_OFFSET=0x41;
 
 #ifdef __AVR__
   #include <avr/power.h>
@@ -46,8 +46,29 @@ void setup() {
   mySerial.begin("pegpixel-board");
   
   Serial.write("Serial is online\n");
+  scan();
   pixels.Begin();
   pixels.Show();  
+}
+
+void scan(){
+Serial.println(" Scanning for PegPixels ...");
+uint8_t cnt=0;
+for(uint8_t i=0;i<128;i++){
+  Wire.beginTransmission(i);
+  uint8_t ec=Wire.endTransmission(true);
+  if(ec==0){
+    if(i<16)Serial.print('0');
+    Serial.print(i,HEX);
+    cnt++;
+  }
+  else Serial.print("..");
+  Serial.print(' ');
+  if ((i&0x0f)==0x0f)Serial.println();
+  }
+Serial.print("Scan Completed, ");
+Serial.print(cnt);
+Serial.println(" PegPixels found.");
 }
 
 void loop() {
